@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace 스도쿠연습
 {
+    /// <summary>
+    /// 스도쿠. 만들기 존나 빡세네 진짜
+    /// </summary>
+    /// <remarks>
+    /// 여기서 쓰는 판 배열은 내부사각형(3x3),사각형 내부 행,열로 구성되어 있음.
+    /// </remarks>
     public class sudoku
     {
         private int[] temp81Q = new int[81];
@@ -40,7 +46,11 @@ namespace 스도쿠연습
         }
 
 
-        private int[] generateLine()  //라인 한 줄(혹은 한 덩어리) 생성
+        /// <summary>
+        /// 한 벌의 숫자 묶음 생성
+        /// </summary>
+        /// <returns>임의 순서의 1~9의 숫자가 들어간 배열 출력</returns>
+        private int[] generateLine()
         {
             Random rd = new Random(DateTime.Now.Millisecond);
 
@@ -62,7 +72,10 @@ namespace 스도쿠연습
             }
             return result;
         }
-        private void generate81Q() // 임시 9 덩어리 한 묶음 생성
+        /// <summary>
+        /// 빈 게임 판에 배치할 임시 9벌의 숫자 묶음 생성
+        /// </summary>
+        private void generate81Q()
         {
             for (int i = 0; i < 9; i++)
             {
@@ -99,7 +112,7 @@ namespace 스도쿠연습
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private static bool verticalAvailableCheck(int boxnum, int innerRownum, int innerColnum) // 세로 '부분' 체크
+        private static bool verticalAvailableCheck(int boxnum, int innerRownum, int innerColnum)
         {
             return false;
         }
@@ -132,7 +145,7 @@ namespace 스도쿠연습
         }
 
         /// <summary>
-        /// 게임 판을 불러옵니다. 알아서 쓰셈.
+        /// 게임 판(3x3x3 배열)을 불러옵니다. 알아서 쓰셈.
         /// </summary>
         /// <returns></returns>
         public int[,,] GetBoard()
@@ -147,9 +160,7 @@ namespace 스도쿠연습
         /// <param name="array">3x3x3배열만 가능합니다</param>
         public void SetBoard(int[,,] array)
         {
-            
-
-
+            board = array;
         }
     }
 }
