@@ -194,6 +194,7 @@ namespace 스도쿠연습
             return result;
         }
 
+        #region Get/Set Board
         /// <summary>
         /// 게임 판(3x3x3 배열)을 불러옵니다. 알아서 쓰셈.
         /// </summary>
@@ -211,6 +212,7 @@ namespace 스도쿠연습
         public void SetBoard(int[,,] array)
         {
             board = array;
-        }
+        } 
+        #endregion
     }
 }
