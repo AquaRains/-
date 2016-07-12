@@ -108,6 +108,7 @@ namespace 스도쿠연습
             }
             return Array.FindAll(t, R => R == board[b, innerRownum, innerColnum]).Count() <= 1 || board[boxnum, innerRownum, innerColnum] == 0;
         }
+
         /// <summary>
         /// 부분 가로 체크 메서드
         /// </summary>
@@ -118,10 +119,12 @@ namespace 스도쿠연습
         private bool horizontalAvailableCheck(int boxnum, int innerRownum, int innerColnum) // 가로 '부분' 체크
         {
             int[] t = new int[9];
-            int x = 0;
-            int y = innerColnum;
+            int bb = boxnum - boxnum % 3; //입력 좌표가 속한 박스 젤 왼쪽편 박스부터
+            int y = innerColnum;                //특정 열에서
+            int x = 0;                              //제일 왼쪽
+        
             int p = 0;
-            int bb = boxnum - boxnum % 3;
+    
             for (int b=0 ;b < 3 ; b++)
             {
                 for (x = 0; x < 3; x++)
@@ -142,7 +145,23 @@ namespace 스도쿠연습
         /// <returns>규칙 체크 결과를 출력합니다</returns>
         private bool verticalAvailableCheck(int boxnum, int innerRownum, int innerColnum)
         {
-            return false;
+            int[] t = new int[9];
+            int x = innerRownum;
+            int y = 0;
+            int p = 0;
+            int bb = boxnum % 3;
+
+
+            for(int b= 0; b< 3; b++)
+			{
+                for(y = 0; y < 3; y++)
+            {
+                    t[p] = board[bb+ b*3, x, y];
+                    p++;
+                } 
+            }
+
+            return Array.FindAll(t, R => R == board[boxnum, innerRownum, innerColnum]).Count() <= 1 || board[boxnum, innerRownum, innerColnum] == 0;
         }
 
 
