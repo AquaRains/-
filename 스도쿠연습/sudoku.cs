@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 namespace 스도쿠연습
 {
     /// <summary>
-    /// 스도쿠. 만들기 존나 빡세네 진짜
+    /// 스도쿠. 만들기 존나 빡세네 진짜 ㅅㅂ 때려치고싶은데 내가 저지른거라
     /// </summary>
     /// <remarks>
     /// 여기서 쓰는 판 배열은 내부사각형(3x3),사각형 내부 행,열로 구성되어 있음.
     /// </remarks>
     public class sudoku
     {
-        private int[] temp81Q = new int[81];
-        private int[] temp9Q = new int[81];
-        private int[,,] board = new int[3, 3, 3];
+        private int[] temp81Q = new int[81];        //게임판 생성때 사용할 임시 숫자 묶음 ( 1~ 9로 9벌)
+        private int[] temp9Q = new int[9];           //그 칸에 가능한 숫자
+        private int[,,] board = new int[3, 3, 3];       // 게임 판
+        private int[,,][] tempexQ = new int[3, 3, 3][];   // 그 칸에 가능한 숫자 목록
 
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace 스도쿠연습
 
             for (int i = 0; i < 9; i++)
             {
-                result[i] = i;
+                result[i] = i+1;
             }
 
             for (int i = 0; i < 9; i++)
@@ -89,9 +90,23 @@ namespace 스도쿠연습
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private static bool boxAvailableCheck(int boxnum, int innerRownum, int innerColnum) //네모 '부분' 체크
+        private bool boxAvailableCheck(int boxnum, int innerRownum, int innerColnum) //네모 '부분' 체크
         {
-            return false;
+            int x, y, b;
+            x = 0;
+            y = 0;
+            b = boxnum;
+            int[] t = new int[9];
+            int p = 0;
+            for (y = 0; y < 3; y++)
+            {
+                for (x = 0; x < 3; x++)
+                {
+                    t[p] = board[b, x, y];
+                    p++;
+                }
+            }
+            return Array.FindAll(t, R => R == board[b, innerRownum, innerColnum]).Count() <= 1 || board[boxnum, innerRownum, innerColnum] == 0;
         }
         /// <summary>
         /// 부분 가로 체크 메서드
@@ -100,9 +115,22 @@ namespace 스도쿠연습
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private static bool horizontalAvailableCheck(int boxnum, int innerRownum, int innerColnum) // 가로 '부분' 체크
+        private bool horizontalAvailableCheck(int boxnum, int innerRownum, int innerColnum) // 가로 '부분' 체크
         {
-            return false;
+            int[] t = new int[9];
+            int x = 0;
+            int y = innerColnum;
+            int p = 0;
+            int bb = boxnum - boxnum % 3;
+            for (int b=0 ;b < 3 ; b++)
+            {
+                for (x = 0; x < 3; x++)
+                {
+                    t[p] = board[b+ bb, x, y];
+                    p++;
+                } 
+            }
+            return Array.FindAll(t, R => R == board[boxnum, innerRownum, innerColnum]).Count() <= 1 || board[boxnum, innerRownum, innerColnum] == 0;
         }
 
         /// <summary>
@@ -112,10 +140,13 @@ namespace 스도쿠연습
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private static bool verticalAvailableCheck(int boxnum, int innerRownum, int innerColnum)
+        private bool verticalAvailableCheck(int boxnum, int innerRownum, int innerColnum)
         {
             return false;
         }
+
+
+
         /// <summary>
         /// 가로, 세로 , 네모를 한꺼번에 체크
         /// </summary>
@@ -123,7 +154,7 @@ namespace 스도쿠연습
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private static bool AvailableCheck(int boxnum, int innerRownum, int innerColnum)
+        private bool AvailableCheck(int boxnum, int innerRownum, int innerColnum)
         {
             return boxAvailableCheck(boxnum, innerRownum, innerColnum) && horizontalAvailableCheck(boxnum, innerRownum, innerColnum) && verticalAvailableCheck(boxnum, innerRownum, innerColnum);
         }
