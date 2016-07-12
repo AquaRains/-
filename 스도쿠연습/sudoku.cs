@@ -16,8 +16,9 @@ namespace 스도쿠연습
     {
         private int[] temp81Q = new int[81];        //게임판 생성때 사용할 임시 숫자 묶음 ( 1~ 9로 9벌)
         private int[] temp9Q = new int[9];           //그 칸에 가능한 숫자
-        private int[,][,] board = new int[3,3][,];   // 게임 판
+        private int[,][,] board = new int[3, 3][,];   // 게임 판
         private int[,][,][] tempexQ = new int[3, 3][,][];  // 그 칸에 가능한 숫자 목록
+        public enum difficulty {없음,그냥쉬움, 짱쉬움 ,꽤쉬움 , 쉬움 , 조금쉬움, 보통, 조금어려움 ,꽤어려움, 약간어려움, 많이어려움, 욕나옴, 한국인 };
 
 
         /// <summary>
@@ -175,7 +176,8 @@ namespace 스도쿠연습
         /// <summary>
         /// 부분 네모 체크 메서드
         /// </summary>
-        /// <param name="boxnum">사각형 번호</param>
+        /// <param name="boxRownum">큰 사각형 행 번호</param>
+        /// <param name="boxColnum">큰 사각형 열 번호</param>
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
