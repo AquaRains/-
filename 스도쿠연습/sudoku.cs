@@ -16,8 +16,8 @@ namespace 스도쿠연습
     {
         private int[] temp81Q = new int[81];        //게임판 생성때 사용할 임시 숫자 묶음 ( 1~ 9로 9벌)
         private int[] temp9Q = new int[9];           //그 칸에 가능한 숫자
-        private int[,,] board = new int[3, 3, 3];       // 게임 판
-        private int[,,][] tempexQ = new int[3, 3, 3][];   // 그 칸에 가능한 숫자 목록
+        private int[,][,] board = new int[3,3][,];   // 게임 판
+        private int[,][,][] tempexQ = new int[3, 3][,][];  // 그 칸에 가능한 숫자 목록
 
 
         /// <summary>
@@ -38,15 +38,97 @@ namespace 스도쿠연습
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    for (int k = 0; k < 3; k++)
-                    {
-                        board[i, j, k] = 0;
-                    }
+                    board[i, j] = new int[3, 3] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } } ;
+                  
                 }
             }
         }
 
+        /// <summary>
+        /// 게임 판을 만듭니다...만 시바 이거 만드는게 젤 X같다고 진짜.
+        /// </summary>
+        public void makeBoard()
+        {
+            int[] line = generateLine();
+            int[,] firstbox = LineTobox(line);
+            board[0, 0] = firstbox;
+            int[] line_2 = lineLeftSwitch(line);
+            int[,] secondbox = LineTobox(line_2);
+            board[1, 0] = secondbox;
+            int[] line_3 = lineLeftSwitch(line_2);
+            int[,] thirdbox = LineTobox(line_3);
+            board[2, 0] = thirdbox;
+            for(int i = 1; i < 3; i++)
+            {
+                board[0, i] = boxswap(board[0, i - 1]);
+                board[1,i] = boxswap(board[1, i - 1]);
+                board[2,i] = boxswap(board[2, i - 1]);
+            }
+          
+        }
+        /// <summary>
+        /// 길이 9의 배열 요소를 앞으로 한칸 밉니다
+        /// </summary>
+        /// <param name="input">크기 9의 int 배열</param>
+        /// <returns></returns>
+        private int[] lineLeftSwitch(int[] input)
+        {
+            int[] line_temp = new int[8];
+            Array.Copy(input, 1, line_temp, 0, 8);
+            int[] line = new int[9];
+            line_temp.CopyTo(line, 0);
+            line[8] = input[0];
 
+            return line;
+        }
+        /// <summary>
+        /// 상자 내용물을 위로 한줄씩 땡김
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private int[,] boxswap(int[,] input)
+        {
+            int[,] result = new int[3, 3];
+
+            int[] line_1 = new int[3];
+            int[] line_2 = new int[3];
+            int[] line_3 = new int[3];
+
+            for(int i = 0; i < 3; i++)
+            {
+                line_1[i] = input[0, i];
+                line_2[i] = input[1, i];
+                line_3[i] = input[2, i];
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                result[0, i] = line_2[i];
+                result[1, i] = line_3[i];
+                result[2, i] = line_1[i];
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 1차원 배열을 3x3배열로
+        /// </summary>
+        /// <param name="line">size 9의 1차원 배열</param>
+        /// <returns></returns>
+        private int[,] LineTobox(int[] line)
+        {
+            int[,] box = new int[3, 3];
+            int p = 0;
+            for(int i = 0; i < 9; i++)
+            {
+                for(int j =0; j <9; j++)
+                {
+                    box[i, j] = line[p];
+                    p++;
+                }
+            }
+
+            return box;
+        }
         /// <summary>
         /// 한 벌의 숫자 묶음 생성
         /// </summary>
@@ -56,16 +138,18 @@ namespace 스도쿠연습
             Random rd = new Random(DateTime.Now.Millisecond);
 
             int[] result = new int[9];
-
-            for (int i = 0; i < 9; i++)
+            
+            for (int i = 0; i < 3; i++)
             {
-                result[i] = i+1;
+                result[i] = i + 1;
             }
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 18; i++)
             {
-                int a = rd.Next(9);  // 0~9 난수발생해서 아무렇게나 자리를 바꾼다
+                int a = rd.Next(9;  // 0~9 난수발생해서 아무렇게나 자리를 바꾼다
                 int b = rd.Next(9);
+
+            
 
                 int temp = result[a];
                 result[a] = result[b];
@@ -145,23 +229,9 @@ namespace 스도쿠연습
         /// <returns>규칙 체크 결과를 출력합니다</returns>
         private bool verticalAvailableCheck(int boxnum, int innerRownum, int innerColnum)
         {
-            int[] t = new int[9];
-            int x = innerRownum;
-            int y = 0;
-            int p = 0;
-            int bb = boxnum % 3;
 
 
-            for(int b= 0; b< 3; b++)
-			{
-                for(y = 0; y < 3; y++)
-            {
-                    t[p] = board[bb+ b*3, x, y];
-                    p++;
-                } 
-            }
-
-            return Array.FindAll(t, R => R == board[boxnum, innerRownum, innerColnum]).Count() <= 1 || board[boxnum, innerRownum, innerColnum] == 0;
+            return false;
         }
 
 
@@ -196,10 +266,10 @@ namespace 스도쿠연습
 
         #region Get/Set Board
         /// <summary>
-        /// 게임 판(3x3x3 배열)을 불러옵니다. 알아서 쓰셈.
+        /// 게임 판(3x3x3x3 배열)을 불러옵니다. 알아서 쓰셈.
         /// </summary>
         /// <returns></returns>
-        public int[,,] GetBoard()
+        public int[,,,] GetBoard()
         {
             return board;
 
@@ -209,7 +279,7 @@ namespace 스도쿠연습
         /// 게임 판 입력용 메서드. 랜덤으로 생성된 문제가 아닌 기존 문제를 입력할때 씁니다.
         /// </summary>
         /// <param name="array">3x3x3배열만 가능합니다</param>
-        public void SetBoard(int[,,] array)
+        public void SetBoard(int[,,,] array)
         {
             board = array;
         } 

@@ -1,22 +1,22 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace 스도쿠연습
 {
     class Program
     {
-        static void Main(string[] args)
+
+        internal static Form1 form1;
+        [STAThread]
+
+        static void Main()
         {
 
-           sudoku Sudoku = new sudoku();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            form1 = new Form1();
+            Application.Run(form1);
 
-            int[,,] temp = Sudoku.GetBoard();
-            
-
-
-           
-            Console.WriteLine();
-            Console.ReadLine();
-            
         }
         
     }
