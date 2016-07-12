@@ -11,11 +11,13 @@ namespace 스도쿠연습
 
         static void Main()
         {
+            sudoku 스도쿠 = new sudoku();
+            Console.WriteLine();
 
-            Application.EnableVisualStyles();
+            /*Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             form1 = new Form1();
-            Application.Run(form1);
+            Application.Run(form1);*/
 
         }
         

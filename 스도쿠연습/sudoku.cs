@@ -26,7 +26,7 @@ namespace 스도쿠연습
         public sudoku() // 생성자
         {
             initializeBoard();
-            generate81Q();
+            makeBoard();
         }
 
         /// <summary>
@@ -47,6 +47,7 @@ namespace 스도쿠연습
         /// <summary>
         /// 게임 판을 만듭니다...만 시바 이거 만드는게 젤 X같다고 진짜.
         /// </summary>
+        #region makeboard 관련
         public void makeBoard()
         {
             int[] line = generateLine();
@@ -58,13 +59,13 @@ namespace 스도쿠연습
             int[] line_3 = lineLeftSwitch(line_2);
             int[,] thirdbox = LineTobox(line_3);
             board[2, 0] = thirdbox;
-            for(int i = 1; i < 3; i++)
+            for (int i = 1; i < 3; i++)
             {
                 board[0, i] = boxswap(board[0, i - 1]);
-                board[1,i] = boxswap(board[1, i - 1]);
-                board[2,i] = boxswap(board[2, i - 1]);
+                board[1, i] = boxswap(board[1, i - 1]);
+                board[2, i] = boxswap(board[2, i - 1]);
             }
-          
+
         }
         /// <summary>
         /// 길이 9의 배열 요소를 앞으로 한칸 밉니다
@@ -94,7 +95,7 @@ namespace 스도쿠연습
             int[] line_2 = new int[3];
             int[] line_3 = new int[3];
 
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 line_1[i] = input[0, i];
                 line_2[i] = input[1, i];
@@ -118,9 +119,9 @@ namespace 스도쿠연습
         {
             int[,] box = new int[3, 3];
             int p = 0;
-            for(int i = 0; i < 9; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for(int j =0; j <9; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     box[i, j] = line[p];
                     p++;
@@ -128,7 +129,11 @@ namespace 스도쿠연습
             }
 
             return box;
-        }
+        } 
+        #endregion
+
+
+
         /// <summary>
         /// 한 벌의 숫자 묶음 생성
         /// </summary>
@@ -139,14 +144,14 @@ namespace 스도쿠연습
 
             int[] result = new int[9];
             
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 9; i++)
             {
                 result[i] = i + 1;
             }
 
             for (int i = 0; i < 18; i++)
             {
-                int a = rd.Next(9;  // 0~9 난수발생해서 아무렇게나 자리를 바꾼다
+                int a = rd.Next(9);  // 0~9 난수발생해서 아무렇게나 자리를 바꾼다
                 int b = rd.Next(9);
 
             
@@ -174,60 +179,37 @@ namespace 스도쿠연습
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private bool boxAvailableCheck(int boxnum, int innerRownum, int innerColnum) //네모 '부분' 체크
+        private bool boxAvailableCheck(int boxRownum,int boxColnum, int innerRownum, int innerColnum) //네모 '부분' 체크
         {
-            int x, y, b;
-            x = 0;
-            y = 0;
-            b = boxnum;
-            int[] t = new int[9];
-            int p = 0;
-            for (y = 0; y < 3; y++)
-            {
-                for (x = 0; x < 3; x++)
-                {
-                    t[p] = board[b, x, y];
-                    p++;
-                }
-            }
-            return Array.FindAll(t, R => R == board[b, innerRownum, innerColnum]).Count() <= 1 || board[boxnum, innerRownum, innerColnum] == 0;
+           
+            
+            return false;
         }
 
         /// <summary>
         /// 부분 가로 체크 메서드
         /// </summary>
-        /// <param name="boxnum">사각형 번호</param>
+        /// <param name="boxRownum">큰 사각형 행 번호</param>
+        /// <param name="boxColnum">큰 사각형 열 번호</param>
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private bool horizontalAvailableCheck(int boxnum, int innerRownum, int innerColnum) // 가로 '부분' 체크
+        private bool horizontalAvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum) // 가로 '부분' 체크
         {
-            int[] t = new int[9];
-            int bb = boxnum - boxnum % 3; //입력 좌표가 속한 박스 젤 왼쪽편 박스부터
-            int y = innerColnum;                //특정 열에서
-            int x = 0;                              //제일 왼쪽
-        
-            int p = 0;
-    
-            for (int b=0 ;b < 3 ; b++)
-            {
-                for (x = 0; x < 3; x++)
-                {
-                    t[p] = board[b+ bb, x, y];
-                    p++;
-                } 
-            }
-            return Array.FindAll(t, R => R == board[boxnum, innerRownum, innerColnum]).Count() <= 1 || board[boxnum, innerRownum, innerColnum] == 0;
+
+
+            return false;
         }
 
         /// <summary>
         /// 부분 세로 체크 메서드
         /// </summary>
-        /// <param name="boxnum">사각형 번호</param>
+        /// <param name="boxRownum">큰 사각형 행 번호</param>
+        /// <param name="boxColnum">큰 사각형 열 번호</param>
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private bool verticalAvailableCheck(int boxnum, int innerRownum, int innerColnum)
+        private bool verticalAvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
 
 
@@ -239,13 +221,14 @@ namespace 스도쿠연습
         /// <summary>
         /// 가로, 세로 , 네모를 한꺼번에 체크
         /// </summary>
-        /// <param name="boxnum">사각형 번호</param>
+        /// <param name="boxRownum">큰 사각형 행 번호</param>
+        /// <param name="boxColnum">큰 사각형 열 번호</param>
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private bool AvailableCheck(int boxnum, int innerRownum, int innerColnum)
+        private bool AvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
-            return boxAvailableCheck(boxnum, innerRownum, innerColnum) && horizontalAvailableCheck(boxnum, innerRownum, innerColnum) && verticalAvailableCheck(boxnum, innerRownum, innerColnum);
+            return false;
         }
 
         /// <summary>
@@ -258,18 +241,18 @@ namespace 스도쿠연습
             int count = 0;
             while (result && count >= 81)
             {
-                result = result && AvailableCheck(count / 9, count / 3, count % 3);
+                result = result && AvailableCheck(1,2,3,4);
                 count++;
             }
             return result;
         }
-
+        
         #region Get/Set Board
         /// <summary>
         /// 게임 판(3x3x3x3 배열)을 불러옵니다. 알아서 쓰셈.
         /// </summary>
         /// <returns></returns>
-        public int[,,,] GetBoard()
+        public int[,][,] GetBoard()
         {
             return board;
 
@@ -279,7 +262,7 @@ namespace 스도쿠연습
         /// 게임 판 입력용 메서드. 랜덤으로 생성된 문제가 아닌 기존 문제를 입력할때 씁니다.
         /// </summary>
         /// <param name="array">3x3x3배열만 가능합니다</param>
-        public void SetBoard(int[,,,] array)
+        public void SetBoard(int[,][,] array)
         {
             board = array;
         } 
