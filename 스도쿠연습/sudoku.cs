@@ -283,6 +283,10 @@ namespace 스도쿠연습
             }
             return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(line, x => x == a).Count() <= 1;
         }
+        private bool horizontalAvailableCheck(int[] a)
+        {
+            return horizontalAvailableCheck(a[0], a[1], a[2], a[3]);
+        }
 
         /// <summary>
         /// 부분 세로 체크 메서드
@@ -306,8 +310,11 @@ namespace 스도쿠연습
                 }
             }
             return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(line, x => x == a).Count() <= 1;
-
-            return false;
+            
+        }
+        private bool verticalAvailableCheck(int[] a)
+        {
+            return verticalAvailableCheck(a[0], a[1], a[2], a[3]);
         }
 
 
@@ -322,8 +329,11 @@ namespace 스도쿠연습
         /// <returns>규칙 체크 결과를 출력합니다</returns>
         private bool AvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
-            return false;
+            int[] a = { boxRownum, boxColnum, innerRownum, innerColnum };
+            return boxAvailableCheck(a) && horizontalAvailableCheck(a) && verticalAvailableCheck(a);
         }
+
+      
 
         /// <summary>
         /// 판 전체를 체크
