@@ -18,7 +18,7 @@ namespace 스도쿠연습
         private int[] temp9Q = new int[9];           //그 칸에 가능한 숫자
         private int[,][,] board = new int[3, 3][,];   // 게임 판
         private int[,][,][] tempexQ = new int[3, 3][,][];  // 그 칸에 가능한 숫자 목록
-        public enum difficulty {없음,그냥쉬움, 짱쉬움 ,꽤쉬움 , 쉬움 , 조금쉬움, 보통, 조금어려움 ,꽤어려움, 약간어려움, 많이어려움, 욕나옴, 한국인 };
+       // public enum difficulty {없음,그냥쉬움, 짱쉬움 ,꽤쉬움 , 쉬움 , 조금쉬움, 보통, 조금어려움 ,꽤어려움, 약간어려움, 많이어려움, 욕나옴, 한국인 };
 
 
         /// <summary>
@@ -110,6 +110,36 @@ namespace 스도쿠연습
             }
             return result;
         }
+        private T[,] boxrowshuffle<T>(T[,] input)
+        {
+            T[,] result = new T[3, 3];
+            T[][] lines = new T[3][];
+            Random r = new Random(System.DateTime.Now.Millisecond);
+
+            lines[0] = new T[3] { input[0, 0], input[0, 1], input[0, 2] };
+            lines[1] = new T[3] { input[1, 0], input[1, 1], input[1, 2] };
+            lines[2] = new T[3] { input[2, 0], input[1, 1], input[2, 2] };
+
+
+            T[] templine = new T[3];
+            for(int i = 0; i < 3; i++)
+            {
+                int a = r.Next(3);
+                int b = r.Next(3);
+                templine = lines[a];
+                lines[a] = lines[b];
+                lines[b] = templine;
+            }
+
+            for(int i = 0; i< 3; i++)
+            {
+                result[0, i] = lines[0][i];
+                result[1, i] = lines[1][i];
+                result[2, i] = lines[2][i];
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// 1차원 배열을 3x3배열로
@@ -131,6 +161,23 @@ namespace 스도쿠연습
 
             return box;
         } 
+
+        /// <summary>
+        /// 3x3을 1차원으로
+        /// </summary>
+        /// <param name="box">3x3의 2차원 배열</param>
+        /// <returns></returns>
+        private int[] lineTobox(int[,] box)
+        {
+            int[] line = new int[9];
+            
+            for(int i = 0; i <9; i++)
+            {
+                line[i] = box[i % 3, i];
+            }
+
+            return line;
+        }
         #endregion
 
 
