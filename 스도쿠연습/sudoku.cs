@@ -204,7 +204,7 @@ namespace 스도쿠연습
             
             for(int i = 0; i <9; i++)
             {
-                line[i] = box[i % 3, i];
+                line[i] = box[i % 3, i/3];
             }
 
             return line;
@@ -253,7 +253,7 @@ namespace 스도쿠연습
         private bool boxAvailableCheck(int boxRownum,int boxColnum, int innerRownum, int innerColnum) //네모 '부분' 체크
         {
             int a = board[boxRownum, boxColnum][innerRownum, innerColnum];
-            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(BoxtoLine(board[boxRownum,boxColnum]), x => x == a).Count() <= 1;
+            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 || Array.FindAll(BoxtoLine(board[boxRownum,boxColnum]), x => x == a).Count() <= 1;
         }
         private bool boxAvailableCheck(int[] a)
         {
@@ -281,7 +281,7 @@ namespace 스도쿠연습
                     p++;
                 }
             }
-            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(line, x => x == a).Count() <= 1;
+            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 || Array.FindAll(line, x => x == a).Count() <= 1;
         }
         private bool horizontalAvailableCheck(int[] a)
         {
@@ -309,7 +309,7 @@ namespace 스도쿠연습
                     p++;
                 }
             }
-            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(line, x => x == a).Count() <= 1;
+            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 || Array.FindAll(line, x => x == a).Count() <= 1;
             
         }
         private bool verticalAvailableCheck(int[] a)
@@ -342,12 +342,9 @@ namespace 스도쿠연습
         public bool BoardCheck() 
         {
             bool result = true;
-            int count = 0;
-            while (result && count >= 81)
-            {
-                result = result && AvailableCheck(1,2,3,4);
-                count++;
-            }
+            
+            for(int i = 0; i < 3; i++) { for(int j = 0; j < 3; j++) { for(int k = 0; k < 3; k++) { for(int l = 0; l < 3; l++) { result &= AvailableCheck(i, j, k, l); } } } }
+       
             return result;
         }
         
