@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace 스도쿠연습
 {
@@ -17,6 +14,7 @@ namespace 스도쿠연습
 
         private int[] temp9Q = new int[9];           //그 칸에 가능한 숫자
         private int[,][,] board = new int[3, 3][,];   // 게임 판
+        private int[,][,] answer = new int[3, 3][,];  // 답안지
         private int[,][,][] tempexQ = new int[3, 3][,][];  // 그 칸에 가능한 숫자 목록
 
 
@@ -45,10 +43,10 @@ namespace 스도쿠연습
             }
         }
 
+        #region makeboard 관련
         /// <summary>
         /// 게임 판을 만듭니다...만 시바 이거 만드는게 젤 X같다고 진짜.
         /// </summary>
-        #region makeboard 관련
         public void makeBoard()
         {
             int[] line = generateLine();
@@ -68,6 +66,8 @@ namespace 스도쿠연습
             }
             boxrowshuffle(board);
             boxcolshuffle(board);
+
+            answer = (int[,][,])board.Clone();
         }
         /// <summary>
         /// 길이 9의 배열 요소를 앞으로 한칸 밉니다
@@ -171,48 +171,6 @@ namespace 스도쿠연습
 
             return result;
         }
-
-        /// <summary>
-        /// 1차원 배열을 3x3배열로
-        /// </summary>
-        /// <param name="line">size 9의 1차원 배열</param>
-        /// <returns></returns>
-        private int[,] LineTobox(int[] line)
-        {
-            int[,] box = new int[3, 3];
-            int p = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    box[i, j] = line[p];
-                    p++;
-                }
-            }
-
-            return box;
-        } 
-
-        /// <summary>
-        /// 3x3을 1차원으로
-        /// </summary>
-        /// <param name="box">3x3의 2차원 배열</param>
-        /// <returns></returns>
-        private int[] BoxtoLine(int[,] box)
-        {
-            int[] line = new int[9];
-            
-            for(int i = 0; i <9; i++)
-            {
-                line[i] = box[i % 3, i/3];
-            }
-
-            return line;
-        }
-        #endregion
-
-
-
         /// <summary>
         /// 한 벌의 숫자 묶음 생성
         /// </summary>
@@ -241,7 +199,49 @@ namespace 스도쿠연습
             }
             return result;
         }
+        #endregion
 
+
+
+
+
+        /// <summary>
+        /// 1차원 배열을 3x3배열로
+        /// </summary>
+        /// <param name="line">size 9의 1차원 배열</param>
+        /// <returns></returns>
+        private int[,] LineTobox(int[] line)
+        {
+            int[,] box = new int[3, 3];
+            int p = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    box[i, j] = line[p];
+                    p++;
+                }
+            }
+
+            return box;
+        }
+
+        /// <summary>
+        /// 3x3을 1차원으로
+        /// </summary>
+        /// <param name="box">3x3의 2차원 배열</param>
+        /// <returns></returns>
+        private int[] BoxtoLine(int[,] box)
+        {
+            int[] line = new int[9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                line[i] = box[i % 3, i / 3];
+            }
+
+            return line;
+        }
         /// <summary>
         /// 부분 네모 체크 메서드
         /// </summary>
@@ -250,15 +250,20 @@ namespace 스도쿠연습
         /// <param name="innerRownum">사각형 내부의 행 번호</param>
         /// <param name="innerColnum">사각형 내부의 열 번호</param>
         /// <returns>규칙 체크 결과를 출력합니다</returns>
-        private bool boxAvailableCheck(int boxRownum,int boxColnum, int innerRownum, int innerColnum) //네모 '부분' 체크
+        /// 
+
+
+
+        #region 조건체크파트
+        private bool boxAvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum) //네모 '부분' 체크
         {
             int a = board[boxRownum, boxColnum][innerRownum, innerColnum];
-            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 || Array.FindAll(BoxtoLine(board[boxRownum,boxColnum]), x => x == a).Count() <= 1;
+            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 || Array.FindAll(BoxtoLine(board[boxRownum, boxColnum]), x => x == a).Count() <= 1;
         }
         private bool boxAvailableCheck(int[] a)
         {
             return boxAvailableCheck(a[0], a[1], a[2], a[3]);
-        }
+        } // 오버로딩
 
         /// <summary>
         /// 부분 가로 체크 메서드
@@ -273,9 +278,9 @@ namespace 스도쿠연습
             int a = board[boxRownum, boxColnum][innerRownum, innerColnum];
             int[] line = new int[9];
             int p = 0;
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for(int j = 0; j < 3; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     line[p] = board[boxRownum, i][innerRownum, j];
                     p++;
@@ -286,7 +291,7 @@ namespace 스도쿠연습
         private bool horizontalAvailableCheck(int[] a)
         {
             return horizontalAvailableCheck(a[0], a[1], a[2], a[3]);
-        }
+        }  //오버로딩
 
         /// <summary>
         /// 부분 세로 체크 메서드
@@ -310,14 +315,12 @@ namespace 스도쿠연습
                 }
             }
             return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 || Array.FindAll(line, x => x == a).Count() <= 1;
-            
+
         }
         private bool verticalAvailableCheck(int[] a)
         {
             return verticalAvailableCheck(a[0], a[1], a[2], a[3]);
-        }
-
-
+        }  //오버로딩
 
         /// <summary>
         /// 가로, 세로 , 네모를 한꺼번에 체크
@@ -332,22 +335,23 @@ namespace 스도쿠연습
             int[] a = { boxRownum, boxColnum, innerRownum, innerColnum };
             return boxAvailableCheck(a) && horizontalAvailableCheck(a) && verticalAvailableCheck(a);
         }
-
-      
-
         /// <summary>
         /// 판 전체를 체크
         /// </summary>
         /// <returns></returns>
-        public bool BoardCheck() 
+        public bool BoardCheck()
         {
             bool result = true;
-            
-            for(int i = 0; i < 3; i++) { for(int j = 0; j < 3; j++) { for(int k = 0; k < 3; k++) { for(int l = 0; l < 3; l++) { result &= AvailableCheck(i, j, k, l); } } } }
-       
+
+            for (int i = 0; i < 3; i++) { for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { for (int l = 0; l < 3; l++) { result &= AvailableCheck(i, j, k, l); } } } }
+
             return result;
         }
-        
+        #endregion
+
+
+
+
         #region Get/Set Board
         /// <summary>
         /// 게임 판(3x3x3x3 배열)을 불러옵니다. 알아서 쓰셈.
