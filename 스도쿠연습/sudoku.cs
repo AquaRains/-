@@ -198,7 +198,7 @@ namespace 스도쿠연습
         /// </summary>
         /// <param name="box">3x3의 2차원 배열</param>
         /// <returns></returns>
-        private int[] lineTobox(int[,] box)
+        private int[] BoxtoLine(int[,] box)
         {
             int[] line = new int[9];
             
@@ -252,9 +252,12 @@ namespace 스도쿠연습
         /// <returns>규칙 체크 결과를 출력합니다</returns>
         private bool boxAvailableCheck(int boxRownum,int boxColnum, int innerRownum, int innerColnum) //네모 '부분' 체크
         {
-           
-            
-            return false;
+            int a = board[boxRownum, boxColnum][innerRownum, innerColnum];
+            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(BoxtoLine(board[boxRownum,boxColnum]), x => x == a).Count() <= 1;
+        }
+        private bool boxAvailableCheck(int[] a)
+        {
+            return boxAvailableCheck(a[0], a[1], a[2], a[3]);
         }
 
         /// <summary>
@@ -267,9 +270,18 @@ namespace 스도쿠연습
         /// <returns>규칙 체크 결과를 출력합니다</returns>
         private bool horizontalAvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum) // 가로 '부분' 체크
         {
-
-
-            return false;
+            int a = board[boxRownum, boxColnum][innerRownum, innerColnum];
+            int[] line = new int[9];
+            int p = 0;
+            for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j < 3; j++)
+                {
+                    line[p] = board[boxRownum, i][innerRownum, j];
+                    p++;
+                }
+            }
+            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(line, x => x == a).Count() <= 1;
         }
 
         /// <summary>
@@ -282,7 +294,18 @@ namespace 스도쿠연습
         /// <returns>규칙 체크 결과를 출력합니다</returns>
         private bool verticalAvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
-
+            int a = board[boxRownum, boxColnum][innerRownum, innerColnum];
+            int[] line = new int[9];
+            int p = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    line[p] = board[i, boxColnum][j, innerColnum];
+                    p++;
+                }
+            }
+            return board[boxRownum, boxColnum][innerRownum, innerColnum] == 0 && Array.FindAll(line, x => x == a).Count() <= 1;
 
             return false;
         }
