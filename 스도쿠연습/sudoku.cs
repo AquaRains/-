@@ -14,11 +14,11 @@ namespace 스도쿠연습
     /// </remarks>
     public class sudoku
     {
-        private int[] temp81Q = new int[81];        //게임판 생성때 사용할 임시 숫자 묶음 ( 1~ 9로 9벌)
+
         private int[] temp9Q = new int[9];           //그 칸에 가능한 숫자
         private int[,][,] board = new int[3, 3][,];   // 게임 판
         private int[,][,][] tempexQ = new int[3, 3][,][];  // 그 칸에 가능한 숫자 목록
-       // public enum difficulty {없음,그냥쉬움, 짱쉬움 ,꽤쉬움 , 쉬움 , 조금쉬움, 보통, 조금어려움 ,꽤어려움, 약간어려움, 많이어려움, 욕나옴, 한국인 };
+
 
 
         /// <summary>
@@ -66,7 +66,8 @@ namespace 스도쿠연습
                 board[1, i] = boxswap(board[1, i - 1]);
                 board[2, i] = boxswap(board[2, i - 1]);
             }
-
+            boxrowshuffle(board);
+            boxcolshuffle(board);
         }
         /// <summary>
         /// 길이 9의 배열 요소를 앞으로 한칸 밉니다
@@ -136,6 +137,36 @@ namespace 스도쿠연습
                 result[0, i] = lines[0][i];
                 result[1, i] = lines[1][i];
                 result[2, i] = lines[2][i];
+            }
+
+            return result;
+        }
+        private T[,] boxcolshuffle<T>(T[,] input)
+        {
+            T[,] result = new T[3, 3];
+            T[][] lines = new T[3][];
+            Random r = new Random(System.DateTime.Now.Millisecond);
+
+            lines[0] = new T[3] { input[0, 0], input[1, 0], input[2, 0] };
+            lines[1] = new T[3] { input[0, 1], input[1, 1], input[2, 1] };
+            lines[2] = new T[3] { input[0, 2], input[1, 2], input[2, 2] };
+
+
+            T[] templine = new T[3];
+            for (int i = 0; i < 3; i++)
+            {
+                int a = r.Next(3);
+                int b = r.Next(3);
+                templine = lines[a];
+                lines[a] = lines[b];
+                lines[b] = templine;
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                result[0, i] = lines[i][0];
+                result[1, i] = lines[i][1];
+                result[2, i] = lines[i][2];
             }
 
             return result;
@@ -210,16 +241,7 @@ namespace 스도쿠연습
             }
             return result;
         }
-        /// <summary>
-        /// 빈 게임 판에 배치할 임시 9벌의 숫자 묶음 생성
-        /// </summary>
-        private void generate81Q()
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                Array.Copy(generateLine(), 0, temp81Q, i * 9, 9);
-            }
-        }
+
         /// <summary>
         /// 부분 네모 체크 메서드
         /// </summary>

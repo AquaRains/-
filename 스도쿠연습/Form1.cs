@@ -16,5 +16,10 @@ namespace 스도쿠연습
         {
             InitializeComponent();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
