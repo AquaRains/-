@@ -12,9 +12,14 @@ namespace 스도쿠연습.game
 {
     public partial class 게임화면 : Form
     {
+        public int clickedbuttonnum
+        {
+            get;
+            private set;
+        }
         private const int txtboxtopmargin = 12;
         private const int txtboxleftmargin = 12;
-        Button[] gamebuttons;
+        public Button[] gamebuttons { get; private set; }
         private static 게임화면 thisform = null;
         public static 게임화면 GetInstance
         {
@@ -59,12 +64,16 @@ namespace 스도쿠연습.game
                 this.Controls.Add(gamebuttons[i]);
                 gamebuttons[i].Click += (object sender, EventArgs e) =>
                 {
-                    NumPadForm numpad = new NumPadForm();
-                    numpad.Show();
+                    Button button = (Button)sender;
+                    clickedbuttonnum = button.TabIndex;
+                    NumPadForm 숫자폼 = NumPadForm.GetInstance;
+                    숫자폼.Show();
+                  
                 };
 
             }
         }
+
         
 
     }
