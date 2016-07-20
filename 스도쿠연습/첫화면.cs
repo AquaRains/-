@@ -21,5 +21,12 @@ namespace 스도쿠연습
         {
             Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            game.게임화면 게임form = game.게임화면.GetInstance;
+            게임form.Show();
+        }
     }
 }
