@@ -56,16 +56,16 @@
     <Compile Include="첫화면.Designer.cs">
       <DependentUpon>첫화면.cs</DependentUpon>
     </Compile>
-    <Compile Include="game\게임화면.cs">
+    <Compile Include="Window\게임화면.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="game\게임화면.Designer.cs">
+    <Compile Include="Window\게임화면.Designer.cs">
       <DependentUpon>게임화면.cs</DependentUpon>
     </Compile>
-    <Compile Include="game\numpad.cs">
+    <Compile Include="Window\numpad.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="game\numpad.Designer.cs">
+    <Compile Include="Window\numpad.Designer.cs">
       <DependentUpon>numpad.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -79,10 +79,10 @@
     <EmbeddedResource Include="첫화면.resx">
       <DependentUpon>첫화면.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="game\게임화면.resx">
+    <EmbeddedResource Include="Window\게임화면.resx">
       <DependentUpon>게임화면.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="game\numpad.resx">
+    <EmbeddedResource Include="Window\numpad.resx">
       <DependentUpon>numpad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
