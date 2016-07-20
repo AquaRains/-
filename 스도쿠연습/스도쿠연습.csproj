@@ -34,9 +34,14 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\스도쿠연습.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>스도쿠연습.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,12 +50,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="첫화면.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="첫화면.Designer.cs">
+      <DependentUpon>첫화면.cs</DependentUpon>
+    </Compile>
+    <Compile Include="game\게임화면.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="game\게임화면.Designer.cs">
+      <DependentUpon>게임화면.cs</DependentUpon>
+    </Compile>
+    <Compile Include="game\numpad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="game\numpad.Designer.cs">
+      <DependentUpon>numpad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sudoku.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="첫화면.resx">
+      <DependentUpon>첫화면.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="game\게임화면.resx">
+      <DependentUpon>게임화면.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="game\numpad.resx">
+      <DependentUpon>numpad.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
