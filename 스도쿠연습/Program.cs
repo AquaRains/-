@@ -11,9 +11,8 @@ namespace 스도쿠연습
 
         static void Main()
         {
-            sudoku 스도쿠 = new sudoku();
 
-            Console.WriteLine(스도쿠.BoardCheck());
+            
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

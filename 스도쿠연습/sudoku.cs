@@ -14,7 +14,12 @@ namespace 스도쿠연습
 
         private int[] temp9Q = new int[9];           //그 칸에 가능한 숫자
         private int[,][,] board = new int[3, 3][,];   // 게임 판
-        private int[,][,] answer = new int[3, 3][,];  // 답안지
+
+        private int[,][,] _answer = new int[3, 3][,];
+        public int[,][,] answer { get { return _answer; } private set { _answer = value; ; } }
+        
+      
+       
         private int[,][,][] tempexQ = new int[3, 3][,][];  // 그 칸에 가능한 숫자 목록
 
 
