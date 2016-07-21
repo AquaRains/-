@@ -16,6 +16,9 @@ namespace 스도쿠연습
         private int[,][,] board = new int[3, 3][,];   // 게임 판
 
         private int[,][,] _answer = new int[3, 3][,];
+        /// <summary>
+        /// 게임 판의 답안을 저장해두었다가 출력해줍니다.
+        /// </summary>
         public int[,][,] answer { get { return _answer; } private set { _answer = value; ; } }
         
       

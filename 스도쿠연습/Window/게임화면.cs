@@ -100,15 +100,16 @@ namespace 스도쿠연습.game
                             p++;
                             
                             this.Controls.Add(A);
-                            A.Click +=  (object sender, EventArgs e) =>
+                            A.Click +=  (object sender, EventArgs e) => // 버튼패드 창 띄우는 이벤트 추가(람다 식)
                                     {
                                         
                                         버튼 button = (버튼)sender;
                                         clickedbuttonnum = new int[4] { A.index_boxrow, A.index_boxcol, A.index_innerrow, A.index_innercol };
                                         NumPadForm 숫자폼 = NumPadForm.GetInstance;
-                                        숫자폼.Location = new Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
+                                       
                                         숫자폼.Show();
-                  
+                                        숫자폼.Location = new Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
+
                                     };
                         }
                     }
@@ -129,6 +130,8 @@ namespace 스도쿠연습.game
         private void 새_게임()
         {
             스도쿠 = new sudoku();
+            배치하기();
+            button1.Enabled = true;
         }
         private void 배치하기()
         {
@@ -138,6 +141,7 @@ namespace 스도쿠연습.game
                         {
                             게임화면.GetInstance.gamebuttons[i, j][k, l].Text = loadedboard[i, j][k, l].ToString();
                         } } } }
+            //button1.Enabled = false;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -147,6 +151,19 @@ namespace 스도쿠연습.game
         private void button3_Click(object sender, EventArgs e)
         {
             새_게임();
+        }
+
+        private void 게임화면_Load(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+        }
+
+        private void 게임화면_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (NumPadForm.GetInstance != null)
+            {
+                NumPadForm.GetInstance.Close();
+            }
         }
     }
 }

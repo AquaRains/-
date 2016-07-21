@@ -54,12 +54,17 @@ namespace 스도쿠연습.game
                 {
                     Button button = (Button)sender;
                     clickednum = int.Parse(button.Text);
-                    //게임화면.GetInstance.gamebuttons[게임화면.GetInstance.clickedbuttonnum].Text = clickednum.ToString();
+                    
                     게임화면.GetInstance.gamebuttons[게임화면.GetInstance.clickedbuttonnum[0],게임화면.GetInstance.clickedbuttonnum[1]][게임화면.GetInstance.clickedbuttonnum[2],게임화면.GetInstance.clickedbuttonnum[3]].Text = clickednum.ToString();
                     this.Close();
                 };
             }
 
+        }
+
+        private void NumPadForm_Deactivate(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

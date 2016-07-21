@@ -136,6 +136,7 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "NumPadForm";
+            this.Deactivate += new System.EventHandler(this.NumPadForm_Deactivate);
             this.ResumeLayout(false);
 
         }
