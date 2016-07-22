@@ -7,7 +7,7 @@ namespace 스도쿠연습.game
   
     public partial class 게임화면 : Form
     {
-        sudoku 스도쿠;
+        스도쿠board 스도쿠;
 
         protected const int buttonstopmargin = 12;///
         protected const int buttonsTopthirdMargin = 8;
@@ -129,7 +129,7 @@ namespace 스도쿠연습.game
 
         private void 새_게임()
         {
-            스도쿠 = new sudoku();
+            스도쿠 = new 스도쿠board();
             배치하기();
             button1.Enabled = true;
         }
