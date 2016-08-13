@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="sudoku\sudoku.resolve.cs" />
+    <Compile Include="sudoku\sudoku.cs" />
+    <Compile Include="sudoku\sudoku.generator.cs" />
     <Compile Include="첫화면.cs">
       <SubType>Form</SubType>
     </Compile>
