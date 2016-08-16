@@ -1,5 +1,5 @@
 ﻿using System;
-
+using sudoku.Resolution;
 namespace sudoku.Generator
 {
     static class boardGenarator

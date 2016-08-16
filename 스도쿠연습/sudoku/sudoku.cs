@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 
 
@@ -10,12 +11,20 @@ namespace sudoku
         bool AvailableCheck(int[] a);
     }
 
+    /// <summary>
+    /// 그 점 하나에 저장된 값들의 집합입니다.
+    /// </summary>
     public class point
     {
         public int innerRownum, innerColnum;
         private int Value;
+        /// <summary>
+        /// 이곳에 넣을 수 있는 값의 집합
+        /// </summary>
         public int[] availableNumList = new int[9];
-
+        /// <summary>
+        /// point 내부에 저장되어있는 숫자를 나타냅니다
+        /// </summary>
         public int value
         {
             get { return Value; }
@@ -42,17 +51,28 @@ namespace sudoku
             Value = 0;
         }
 
+        /// <summary>
+        /// point.value값
+        /// </summary>
+        /// <param name="v"></param>
         public static explicit operator int(point v)
         {
             return v.value;
         }
+        /// <summary>
+        /// point.value값
+        /// </summary>
+        /// <param name="v"></param>
         public static explicit operator point(int v)
         {
             return new point(v);
         }
 
-
     }
+
+    /// <summary>
+    /// 가로, 세로 줄에 관련된 간단한 기본형(인스턴스화 불가)
+    /// </summary>
     public abstract class line
     {
         /// <summary>
@@ -86,7 +106,10 @@ namespace sudoku
 
 
     }
-    public class shortline : line
+    /// <summary>
+    /// box값 내부의 한 줄인 3개 한 묶음짜리
+    /// </summary>
+    public class shortline : line, IEnumerable
     {
 
         private point[] line = new point[3];
@@ -148,6 +171,12 @@ namespace sudoku
 
             return box;
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Line.GetEnumerator();
+        }
+
         public static explicit operator shortline(point[] v)
         {
             shortline temp = new shortline();
@@ -158,7 +187,10 @@ namespace sudoku
         }
 
     }
-    public class longline : line
+    /// <summary>
+    /// board 구조에 기초한 9개 한 줄 혹은 3개의 shortline의 한 묶음
+    /// </summary>
+    public class longline : line,IEnumerable
     {
         private shortline[] s3line = new shortline[3];
         private point[] line = new point[9];
@@ -169,6 +201,9 @@ namespace sudoku
                 line[i] = s3line[i / 3].Line[i % 3];
             }
         }
+        /// <summary>
+        /// 저장된 point[9] 반환
+        /// </summary>
         public point[] Line
         {
             get { return line; }
@@ -199,6 +234,12 @@ namespace sudoku
             }
             return lines;
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Line.GetEnumerator();
+        }
+
         public static explicit operator longline(shortline[] v)
         {
             return new longline(v);
@@ -213,7 +254,7 @@ namespace sudoku
             s3to9line();
         }
     }
-    public class box : ICheckable
+    public class box : ICheckable, IEnumerable
     {
         public readonly int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         private point[,] _box;
@@ -317,7 +358,12 @@ namespace sudoku
             int[] temp = BoxtoLine();
             Array.Sort(temp);
             return temp == nums;
-        } 
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Box.GetEnumerator();
+        }
         #endregion
 
         public static explicit operator box(int[,] v)
@@ -335,8 +381,7 @@ namespace sudoku
       
        
     }
-
-    public class board : ICheckable
+    public class board : ICheckable, IEnumerable
     {
         box[,] _board = new box[3, 3];
         public box this[int x, int y]
@@ -393,6 +438,11 @@ namespace sudoku
         public bool AvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Board.GetEnumerator();
         }
 
         public static explicit operator board(box[,] b)

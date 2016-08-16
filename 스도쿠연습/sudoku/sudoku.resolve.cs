@@ -16,8 +16,28 @@ namespace sudoku.Resolution
     {
         public static board phase1(board board)
         {
-
+            foreach(box b in board)
+            {
+                
+            }
             return board;
+        }
+        public static board phase2(board board)
+        {
+            return board;
+        }
+        public static board phase3(board board)
+        {
+            return board;
+        }
+        public static board phase4(board board)
+        {
+            return board;
+        }
+
+        public static void boxp1(box box)
+        {
+            
         }
     }
 }
