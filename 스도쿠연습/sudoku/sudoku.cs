@@ -53,7 +53,7 @@ namespace sudoku
 
 
     }
-    public abstract class _line
+    public abstract class line
     {
         /// <summary>
         /// 방향을 나타냅니다. 
@@ -86,7 +86,7 @@ namespace sudoku
 
 
     }
-    public class shortline : _line
+    public class shortline : line
     {
 
         private point[] line = new point[3];
@@ -158,7 +158,7 @@ namespace sudoku
         }
 
     }
-    public class longline : _line
+    public class longline : line
     {
         private shortline[] s3line = new shortline[3];
         private point[] line = new point[9];
@@ -268,6 +268,7 @@ namespace sudoku
 
         }
 
+
         protected int[] BoxtoLine()
         {
             point[] point = BoxtoLine(_box);
@@ -289,7 +290,7 @@ namespace sudoku
 
             return line;
         }
-        public point[] Getline(int number, _line.direction d)
+        public point[] Getline(int number, line.direction d)
         {
             return shortline.Getline(this, number, d);
         }
@@ -331,6 +332,8 @@ namespace sudoku
             }
             return box;
         }
+      
+       
     }
 
     public class board : ICheckable
@@ -357,6 +360,19 @@ namespace sudoku
                 }
             }
         }
+
+        public box[,] Board
+            {
+            get
+            {
+                return _board;
+            }
+            set
+            {
+                _board = value;
+            }
+            }
+
         public board()
         {
             _board = new box[3, 3];
@@ -364,7 +380,7 @@ namespace sudoku
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    _board[i, j] = new box(i, j);
+                    _board[i, j] = new box();
                 }
             }
         }
@@ -379,7 +395,17 @@ namespace sudoku
             throw new NotImplementedException();
         }
 
-
+        public static explicit operator board(box[,] b)
+        {
+            board board = new board();
+            board._board = b;
+            return board;
+        }
+        public static explicit operator box[,] (board b)
+        {
+            box[,] box = b.Board;
+            return box;
+        }
     }
 
 

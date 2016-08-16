@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using sudoku;
+using sudoku.Generator;
 
 namespace 스도쿠연습.game
 {
   
     public partial class 게임화면 : Form
     {
-        스도쿠board 스도쿠;
+        board board = new board();
 
         protected const int buttonstopmargin = 12;///
         protected const int buttonsTopthirdMargin = 8;
@@ -129,17 +131,17 @@ namespace 스도쿠연습.game
 
         private void 새_게임()
         {
-            스도쿠 = new 스도쿠board();
+            board = boardGenarator.Genarateboard(board);
             배치하기();
             button1.Enabled = true;
         }
         private void 배치하기()
         {
-            
-            int[,][,] loadedboard = 스도쿠.GetBoard();
+
+           
             for (int i = 0; i<3; i++) { for(int j = 0; j < 3; j++) { for(int k = 0; k < 3; k++) { for(int l = 0; l < 3; l++)
                         {
-                            게임화면.GetInstance.gamebuttons[i, j][k, l].Text = loadedboard[i, j][k, l].ToString();
+                            게임화면.GetInstance.gamebuttons[i, j][k, l].Text = board[i, j].Box[k, l].value.ToString();
                         } } } }
             //button1.Enabled = false;
         }

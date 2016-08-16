@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sudoku.Generator
 {
     static class boardGenarator
     {
-        static board Genarateboard(board board)
+        public static board Genarateboard(board board)
         {
             int[] line = generateLine();
             int[,] firstbox = shortline.LineTobox(line);
@@ -21,12 +17,11 @@ namespace sudoku.Generator
             board[2, 0] = (box)thirdbox;
             for (int i = 1; i < 3; i++)
             {
-                board[0, i] = boxswap(board[0, i - 1]);
-                board[1, i] = boxswap(board[1, i - 1]);
-                board[2, i] = boxswap(board[2, i - 1]);
+               board[0, i].Box = boxswap(board[0, i-1].Box);
+               board[1, i].Box = boxswap(board[1, i-1].Box);
+               board[2, i].Box = boxswap(board[2, i-1].Box);
             }
-           board =  boxrowshuffle(board);
-            boxcolshuffle(board);
+           board =  (board)boxrowshuffle((box[,])board);
             return board;
         }
         private static T[,] boxswap<T>(T[,] input)
@@ -145,11 +140,21 @@ namespace sudoku.Generator
             }
             return result;
         }
-
     }
     class QuestionGenerator
     {
         board answer = new board();
         
+        public QuestionGenerator(board board)
+        {
+            board = boardGenarator.Genarateboard(board);
+            
+        }
+
+        private static board makeQuestion(board board)
+        {
+
+            return board;
+        }
     }
 }
