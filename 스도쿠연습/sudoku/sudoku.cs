@@ -16,7 +16,7 @@ namespace sudoku
     /// </summary>
     public class point
     {
-        public int innerRownum, innerColnum;
+
         private int Value;
         /// <summary>
         /// 이곳에 넣을 수 있는 값의 집합
@@ -30,18 +30,7 @@ namespace sudoku
             get { return Value; }
             set { Value = value; }
         }
-        public point(int InnerRownum, int InnerColnum, int value)
-        {
-            innerRownum = InnerRownum;
-            innerColnum = InnerColnum;
-            Value = value;
-        }
-        public point(int InnerRownum, int InnerColnum)
-        {
-            innerColnum = InnerColnum;
-            innerRownum = InnerRownum;
-            Value = 0;
-        }
+
         public point(int value)
         {
             Value = value;
@@ -303,7 +292,7 @@ namespace sudoku
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    _box[i, j] = new point(i, j);
+                    _box[i, j] = new point();
                 }
             }
 
