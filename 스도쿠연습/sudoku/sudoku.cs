@@ -14,7 +14,7 @@ namespace sudoku
     /// <summary>
     /// 그 점 하나에 저장된 값들의 집합입니다.
     /// </summary>
-    public class point
+    public class Point
     {
 
         private int Value;
@@ -31,11 +31,11 @@ namespace sudoku
             set { Value = value; }
         }
 
-        public point(int value)
+        public Point(int value)
         {
             Value = value;
         }
-        public point()
+        public Point()
         {
             Value = 0;
         }
@@ -44,7 +44,7 @@ namespace sudoku
         /// point.value값
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator int(point v)
+        public static explicit operator int(Point v)
         {
             return v.value;
         }
@@ -52,9 +52,9 @@ namespace sudoku
         /// point.value값
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator point(int v)
+        public static explicit operator Point(int v)
         {
-            return new point(v);
+            return new Point(v);
         }
 
     }
@@ -68,7 +68,7 @@ namespace sudoku
         /// 방향을 나타냅니다. 
         /// 
         /// </summary>
-        public enum direction
+        public enum Direction
         {
             /// <summary>
             /// 해당 사항 없음
@@ -83,11 +83,11 @@ namespace sudoku
             /// </summary>
             Vertical
         }
-        private direction _Direction;
+        private Direction _Direction;
         /// <summary>
         /// 이 인스턴스에 저장된 방향 값입니다
         /// </summary>
-        public direction Direction
+        public Direction direction
         {
             get { return _Direction; }
             set { _Direction = value; }
@@ -98,43 +98,43 @@ namespace sudoku
     /// <summary>
     /// box값 내부의 한 줄인 3개 한 묶음짜리
     /// </summary>
-    public class shortline : line, IEnumerable
+    public class Shortline : line, IEnumerable
     {
 
-        private point[] line = new point[3];
-        public point[] Line
+        private Point[] line = new Point[3];
+        public Point[] Line
         {
             get { return line; }
             private set { line = value; }
         }
 
-        shortline(box box, int number, direction d)
+        Shortline(Box box, int number, Direction d)
         {
             this.Line = Getline(box, number, d);
-            Direction = d;
+            direction = d;
         }
-        shortline(direction d)
+        Shortline(Direction d)
         {
-            Direction = d;
+            direction = d;
         }
-        shortline()
+        Shortline()
         {
         }
 
-        public static point[] Getline(box box, int number, direction d)
+        public static Point[] Getline(Box box, int number, Direction d)
         {
-            point[] line = new point[3];
+            Point[] line = new Point[3];
             switch (d)
             {
-                case direction.Unabled:
+                case Direction.Unabled:
                     throw new ArgumentException("Line 형식만 사용됩니다");
                     break;
-                case direction.Horizontal:
+                case Direction.Horizontal:
                     line[0] = box[number, 0];
                     line[1] = box[number, 1];
                     line[2] = box[number, 2];
                     break;
-                case direction.Vertical:
+                case Direction.Vertical:
                     line[0] = box[0, number];
                     line[1] = box[1, number];
                     line[2] = box[2, number];
@@ -166,9 +166,9 @@ namespace sudoku
             return Line.GetEnumerator();
         }
 
-        public static explicit operator shortline(point[] v)
+        public static explicit operator Shortline(Point[] v)
         {
-            shortline temp = new shortline();
+            Shortline temp = new Shortline();
             temp.Line[0] = v[0];
             temp.Line[1] = v[1];
             temp.Line[2] = v[2];
@@ -179,10 +179,10 @@ namespace sudoku
     /// <summary>
     /// board 구조에 기초한 9개 한 줄 혹은 3개의 shortline의 한 묶음
     /// </summary>
-    public class longline : line,IEnumerable
+    public class Longline : line,IEnumerable
     {
-        private shortline[] s3line = new shortline[3];
-        private point[] line = new point[9];
+        private Shortline[] s3line = new Shortline[3];
+        private Point[] line = new Point[9];
         private void s3to9line()
         {
             for(int i = 0; i < 9; i++)
@@ -193,30 +193,30 @@ namespace sudoku
         /// <summary>
         /// 저장된 point[9] 반환
         /// </summary>
-        public point[] Line
+        public Point[] Line
         {
             get { return line; }
             private set { line = value; }
         }
 
-        public static shortline[] Getline(board board, int number, direction d)
+        public static Shortline[] Getline(Board board, int number, Direction d)
         {
-            shortline[] lines = new shortline[3];
+            Shortline[] lines = new Shortline[3];
 
             switch (d)
             {
-                case direction.Unabled:
+                case Direction.Unabled:
                     throw new ArgumentException();
-                case direction.Horizontal:
-                    lines[0] = (shortline)board[number / 3, 0].Getline(number % 3, direction.Horizontal);
-                    lines[1] = (shortline)board[number / 3, 1].Getline(number % 3, direction.Horizontal);
-                    lines[2] = (shortline)board[number / 3, 2].Getline(number % 3, direction.Horizontal);
+                case Direction.Horizontal:
+                    lines[0] = (Shortline)board[number / 3, 0].Getline(number % 3, Direction.Horizontal);
+                    lines[1] = (Shortline)board[number / 3, 1].Getline(number % 3, Direction.Horizontal);
+                    lines[2] = (Shortline)board[number / 3, 2].Getline(number % 3, Direction.Horizontal);
 
                     break;
-                case direction.Vertical:
-                    lines[0] = (shortline)board[0, number / 3].Getline(number % 3, direction.Vertical);
-                    lines[1] = (shortline)board[1, number / 3].Getline(number % 3, direction.Vertical);
-                    lines[2] = (shortline)board[2, number / 3].Getline(number % 3, direction.Vertical);
+                case Direction.Vertical:
+                    lines[0] = (Shortline)board[0, number / 3].Getline(number % 3, Direction.Vertical);
+                    lines[1] = (Shortline)board[1, number / 3].Getline(number % 3, Direction.Vertical);
+                    lines[2] = (Shortline)board[2, number / 3].Getline(number % 3, Direction.Vertical);
                     break;
                 default:
                     throw new ArgumentException();
@@ -229,13 +229,13 @@ namespace sudoku
             return Line.GetEnumerator();
         }
 
-        public static explicit operator longline(shortline[] v)
+        public static explicit operator Longline(Shortline[] v)
         {
-            return new longline(v);
+            return new Longline(v);
 
         }
 
-        private longline(shortline[] v)
+        private Longline(Shortline[] v)
         {
             s3line[0] = v[0];
             s3line[1] = v[1];
@@ -243,11 +243,11 @@ namespace sudoku
             s3to9line();
         }
     }
-    public class box : ICheckable, IEnumerable
+    public class Box : ICheckable, IEnumerable
     {
         public readonly int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        private point[,] _box;
-        public point[,] Box
+        private Point[,] _box;
+        public Point[,] box
         {
             get { return _box; }
             set { _box = value; }
@@ -260,7 +260,7 @@ namespace sudoku
                 return AvailableCheck();
             }
         }
-        public point this[int x, int y]
+        public Point this[int x, int y]
         {
             get
             {
@@ -284,15 +284,15 @@ namespace sudoku
 
 
 
-        public box()
+        public Box()
         {
 
-            _box = new point[3, 3];
+            _box = new Point[3, 3];
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    _box[i, j] = new point();
+                    _box[i, j] = new Point();
                 }
             }
 
@@ -301,7 +301,7 @@ namespace sudoku
 
         protected int[] BoxtoLine()
         {
-            point[] point = BoxtoLine(_box);
+            Point[] point = BoxtoLine(_box);
             int[] result = new int[point.Length];
             for (int a = 0; a < point.Length; a++)
             {
@@ -320,9 +320,9 @@ namespace sudoku
 
             return line;
         }
-        public point[] Getline(int number, line.direction d)
+        public Point[] Getline(int number, line.Direction d)
         {
-            return shortline.Getline(this, number, d);
+            return Shortline.Getline(this, number, d);
         }
 
         
@@ -355,14 +355,14 @@ namespace sudoku
         }
         #endregion
 
-        public static explicit operator box(int[,] v)
+        public static explicit operator Box(int[,] v)
         {
-            box box = new box();
+            Box box = new Box();
             for(int i = 0; i < 3; i++)
             {
                 for(int j = 0; j < 3; j++)
                 {
-                    box.Box[i,j].value = v[i, j];
+                    box.box[i,j].value = v[i, j];
                 }
             }
             return box;
@@ -370,10 +370,10 @@ namespace sudoku
       
        
     }
-    public class board : ICheckable, IEnumerable
+    public class Board : ICheckable, IEnumerable
     {
-        box[,] _board = new box[3, 3];
-        public box this[int x, int y]
+        Box[,] _board = new Box[3, 3];
+        public Box this[int x, int y]
         {
             get
             {
@@ -395,7 +395,7 @@ namespace sudoku
             }
         }
 
-        public box[,] Board
+        public Box[,] board
             {
             get
             {
@@ -407,14 +407,14 @@ namespace sudoku
             }
             }
 
-        public board()
+        public Board()
         {
-            _board = new box[3, 3];
+            _board = new Box[3, 3];
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    _board[i, j] = new box();
+                    _board[i, j] = new Box();
                 }
             }
         }
@@ -434,15 +434,15 @@ namespace sudoku
             return Board.GetEnumerator();
         }
 
-        public static explicit operator board(box[,] b)
+        public static explicit operator Board(Box[,] b)
         {
-            board board = new board();
+            Board board = new Board();
             board._board = b;
             return board;
         }
-        public static explicit operator box[,] (board b)
+        public static explicit operator Box[,] (Board b)
         {
-            box[,] box = b.Board;
+            Box[,] box = b.Board;
             return box;
         }
     }

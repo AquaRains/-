@@ -9,7 +9,7 @@ namespace 스도쿠연습.game
   
     public partial class 게임화면 : Form
     {
-        board board = new board();
+        Board board = new Board();
 
         protected const int buttonstopmargin = 12;///
         protected const int buttonsTopthirdMargin = 8;
@@ -90,7 +90,7 @@ namespace 스도쿠연습.game
                             버튼 A = gamebuttons[boxrow, boxcol][innerrow, innercol];
 
                             A.Text = p.ToString();
-                            A.Location = new Point(buttonsleftmargin + innerrow * buttonswidth + boxrow * (buttonsLeftthirdMargin * buttonsleftmargin + buttonswidth),
+                            A.Location = new System.Drawing.Point(buttonsleftmargin + innerrow * buttonswidth + boxrow * (buttonsLeftthirdMargin * buttonsleftmargin + buttonswidth),
                                                          buttonstopmargin + innercol * buttonsheight + boxcol * (buttonsTopthirdMargin * buttonstopmargin + buttonsheight));
                             A.Name = "gamebuttons[" + p + "]";
                             A.Size = new Size(32, 32);
@@ -110,7 +110,7 @@ namespace 스도쿠연습.game
                                         NumPadForm 숫자폼 = NumPadForm.GetInstance;
                                        
                                         숫자폼.Show();
-                                        숫자폼.Location = new Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
+                                        숫자폼.Location = new System.Drawing.Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
 
                                     };
                         }
@@ -131,7 +131,7 @@ namespace 스도쿠연습.game
 
         private void 새_게임()
         {
-            board = boardGenarator.Genarateboard(board);
+            board = BoardGenarator.Genarateboard(board);
             배치하기();
             button1.Enabled = true;
         }

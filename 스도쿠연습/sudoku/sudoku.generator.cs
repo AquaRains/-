@@ -2,26 +2,26 @@
 using sudoku.Resolution;
 namespace sudoku.Generator
 {
-    static class boardGenarator
+    static class BoardGenarator
     {
-        public static board Genarateboard(board board)
+        public static Board Genarateboard(Board board)
         {
             int[] line = generateLine();
-            int[,] firstbox = shortline.LineTobox(line);
-            board[0, 0] = (box)firstbox;
+            int[,] firstbox = Shortline.LineTobox(line);
+            board[0, 0] = (Box)firstbox;
             int[] line_2 = lineLeftSwitch(line);
-            int[,] secondbox = shortline.LineTobox(line_2);
-            board[1, 0] = (box)secondbox;
+            int[,] secondbox = Shortline.LineTobox(line_2);
+            board[1, 0] = (Box)secondbox;
             int[] line_3 = lineLeftSwitch(line_2);
-            int[,] thirdbox = shortline.LineTobox(line_3);
-            board[2, 0] = (box)thirdbox;
+            int[,] thirdbox = Shortline.LineTobox(line_3);
+            board[2, 0] = (Box)thirdbox;
             for (int i = 1; i < 3; i++)
             {
                board[0, i].Box = boxswap(board[0, i-1].Box);
                board[1, i].Box = boxswap(board[1, i-1].Box);
                board[2, i].Box = boxswap(board[2, i-1].Box);
             }
-           board =  (board)boxrowshuffle((box[,])board);
+           board =  (Board)boxrowshuffle((Box[,])board);
             return board;
         }
         private static T[,] boxswap<T>(T[,] input)
@@ -141,19 +141,18 @@ namespace sudoku.Generator
             return result;
         }
     }
-    class QuestionGenerator
+    public class QuestionGenerator
     {
-        board answer = new board();
+        Board answer = new Board();
         
-        public QuestionGenerator(board board)
+        public QuestionGenerator(Board board)
         {
-            board = boardGenarator.Genarateboard(board);
+            board = BoardGenarator.Genarateboard(board);
             
         }
 
-        private static board makeQuestion(board board)
+        private static Board makeQuestion(Board board)
         {
-
             return board;
         }
     }
