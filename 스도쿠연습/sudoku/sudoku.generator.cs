@@ -17,11 +17,12 @@ namespace sudoku.Generator
             board[2, 0] = (Box)thirdbox;
             for (int i = 1; i < 3; i++)
             {
-               board[0, i].Box = boxswap(board[0, i-1].Box);
-               board[1, i].Box = boxswap(board[1, i-1].Box);
-               board[2, i].Box = boxswap(board[2, i-1].Box);
+               board[0, i].box = boxswap(board[0, i-1].box);
+               board[1, i].box = boxswap(board[1, i-1].box);
+               board[2, i].box = boxswap(board[2, i-1].box);
             }
-           board =  (Board)boxrowshuffle((Box[,])board);
+           //board =  (Board)boxrowshuffle((Box[,])board);
+           // board = (Board)boxcolshuffle((Box[,])board);
             return board;
         }
         private static T[,] boxswap<T>(T[,] input)

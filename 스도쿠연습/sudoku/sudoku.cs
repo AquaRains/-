@@ -311,7 +311,7 @@ namespace sudoku
         }
         public static T[] BoxtoLine<T>(T[,] box)
         {
-           T[] line = new T[9];
+            T[] line = new T[9];
 
             for (int i = 0; i < 9; i++)
             {
@@ -325,7 +325,7 @@ namespace sudoku
             return Shortline.Getline(this, number, d);
         }
 
-        
+
 
         #region Availablecheck
 
@@ -351,25 +351,24 @@ namespace sudoku
 
         public IEnumerator GetEnumerator()
         {
-            return Box.GetEnumerator();
+            return box.GetEnumerator();
         }
         #endregion
 
         public static explicit operator Box(int[,] v)
         {
             Box box = new Box();
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for(int j = 0; j < 3; j++)
+                for (int j = 0; j < 3; j++)
                 {
-                    box.box[i,j].value = v[i, j];
+                    box.box[i, j].value = v[i, j];
                 }
             }
             return box;
         }
-      
-       
     }
+    
     public class Board : ICheckable, IEnumerable
     {
         Box[,] _board = new Box[3, 3];
@@ -431,7 +430,7 @@ namespace sudoku
 
         public IEnumerator GetEnumerator()
         {
-            return Board.GetEnumerator();
+            return board.GetEnumerator();
         }
 
         public static explicit operator Board(Box[,] b)
@@ -442,7 +441,7 @@ namespace sudoku
         }
         public static explicit operator Box[,] (Board b)
         {
-            Box[,] box = b.Board;
+            Box[,] box = b.board;
             return box;
         }
     }
