@@ -11,7 +11,7 @@ namespace 스도쿠연습.game
     {
         Board board = new Board();
 
-        protected const int buttonstopmargin = 12;///
+        protected const int buttonstopmargin = 12;
         protected const int buttonsTopthirdMargin = 8;
         protected const int buttonsleftmargin = 12;
         protected const int buttonsLeftthirdMargin = 8;
@@ -21,7 +21,7 @@ namespace 스도쿠연습.game
         /// <summary>
         /// button 상속받아서 좌표값 저장할수 있게 변수 추가
         /// </summary>
-        public class 버튼 : System.Windows.Forms.Button
+        public class Buttons : System.Windows.Forms.Button
         {
             public int index_innerrow;
             public int index_innercol;
@@ -41,7 +41,7 @@ namespace 스도쿠연습.game
         /// 81개 버튼 컨트롤 배열
         /// </summary>
 
-        public 버튼[,][,] gamebuttons;
+        public Buttons[,][,] gamebuttons;
         private static 게임화면 thisform = null;
 
         /// <summary>
@@ -76,18 +76,21 @@ namespace 스도쿠연습.game
 
         private void makegamebuttons()
         {
-            gamebuttons = new 버튼[3, 3][,];
+            gamebuttons = new Buttons[3, 3][,];
             int p = 0;
 
-            for(int boxrow = 0; boxrow < 3; boxrow++)  { for(int boxcol = 0; boxcol < 3; boxcol++)  {
-                    gamebuttons[boxrow, boxcol] = new 버튼[3, 3];
-                    for (int innerrow = 0; innerrow < 3; innerrow ++)
+            for (int boxrow = 0; boxrow < 3; boxrow++)
+            {
+                for (int boxcol = 0; boxcol < 3; boxcol++)
+                {
+                    gamebuttons[boxrow, boxcol] = new Buttons[3, 3];
+                    for (int innerrow = 0; innerrow < 3; innerrow++)
                     {
-                        
+
                         for (int innercol = 0; innercol < 3; innercol++)
                         {
-                            gamebuttons[boxrow, boxcol][innerrow, innercol] = new 버튼();
-                            버튼 A = gamebuttons[boxrow, boxcol][innerrow, innercol];
+                            gamebuttons[boxrow, boxcol][innerrow, innercol] = new Buttons();
+                            Buttons A = gamebuttons[boxrow, boxcol][innerrow, innercol];
 
                             A.Text = p.ToString();
                             A.Location = new System.Drawing.Point(buttonsleftmargin + innerrow * buttonswidth + boxrow * (buttonsLeftthirdMargin * buttonsleftmargin + buttonswidth),
@@ -100,23 +103,24 @@ namespace 스도쿠연습.game
                             A.index_innercol = innercol;
                             A.index_innerrow = innerrow;
                             p++;
-                            
-                            this.Controls.Add(A);
-                            A.Click +=  (object sender, EventArgs e) => // 버튼패드 창 띄우는 이벤트 추가(람다 식)
-                                    {
-                                        
-                                        버튼 button = (버튼)sender;
-                                        clickedbuttonnum = new int[4] { A.index_boxrow, A.index_boxcol, A.index_innerrow, A.index_innercol };
-                                        NumPadForm 숫자폼 = NumPadForm.GetInstance;
-                                       
-                                        숫자폼.Show();
-                                        숫자폼.Location = new System.Drawing.Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
 
-                                    };
+                            this.Controls.Add(A);
+                            A.Click += (object sender, EventArgs e) => // 버튼패드 창 띄우는 이벤트 추가(람다 식)
+                            {
+
+                                Buttons button = (Buttons)sender;
+                                clickedbuttonnum = new int[4] { A.index_boxrow, A.index_boxcol, A.index_innerrow, A.index_innercol };
+                                NumPadForm 숫자폼 = NumPadForm.GetInstance;
+
+                                숫자폼.Show();
+                                숫자폼.Location = new System.Drawing.Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
+
+                            };
                         }
                     }
 
-                }   }
+                }
+            }
           
             
            
@@ -131,7 +135,7 @@ namespace 스도쿠연습.game
 
         private void 새_게임()
         {
-            board = BoardGenarator.Genarateboard(board);
+            board = BoardGenarator.genarateboard(board);
             배치하기();
             button1.Enabled = true;
         }

@@ -7,8 +7,8 @@ namespace sudoku
 {
     interface ICheckable
     {
-        bool AvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum);
-        bool AvailableCheck(int[] a);
+        bool availableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum);
+        bool availableCheck(int[] a);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ namespace sudoku
     /// <summary>
     /// 가로, 세로 줄에 관련된 간단한 기본형(인스턴스화 불가)
     /// </summary>
-    public abstract class line
+    public abstract class Line
     {
         /// <summary>
         /// 방향을 나타냅니다. 
@@ -98,7 +98,7 @@ namespace sudoku
     /// <summary>
     /// box값 내부의 한 줄인 3개 한 묶음짜리
     /// </summary>
-    public class Shortline : line, IEnumerable
+    public class Shortline : Line, IEnumerable
     {
 
         private Point[] line = new Point[3];
@@ -110,7 +110,7 @@ namespace sudoku
 
         Shortline(Box box, int number, Direction d)
         {
-            this.Line = Getline(box, number, d);
+            this.Line = getline(box, number, d);
             direction = d;
         }
         Shortline(Direction d)
@@ -121,7 +121,7 @@ namespace sudoku
         {
         }
 
-        public static Point[] Getline(Box box, int number, Direction d)
+        public static Point[] getline(Box box, int number, Direction d)
         {
             Point[] line = new Point[3];
             switch (d)
@@ -145,7 +145,7 @@ namespace sudoku
             }
             return line;
         }
-        public static T[,] LineTobox<T>(T[] line)
+        public static T[,] lineTobox<T>(T[] line)
         {
             T[,] box = new T[3, 3];
             int p = 0;
@@ -179,7 +179,7 @@ namespace sudoku
     /// <summary>
     /// board 구조에 기초한 9개 한 줄 혹은 3개의 shortline의 한 묶음
     /// </summary>
-    public class Longline : line,IEnumerable
+    public class Longline : Line,IEnumerable
     {
         private Shortline[] s3line = new Shortline[3];
         private Point[] line = new Point[9];
@@ -253,13 +253,7 @@ namespace sudoku
             set { _box = value; }
         }
 
-        public bool Available
-        {
-            get
-            {
-                return AvailableCheck();
-            }
-        }
+        public bool available => availableCheck();
         public Point this[int x, int y]
         {
             get
@@ -281,8 +275,6 @@ namespace sudoku
                 }
             }
         }
-
-
 
         public Box()
         {
@@ -320,29 +312,29 @@ namespace sudoku
 
             return line;
         }
-        public Point[] Getline(int number, line.Direction d)
+        public Point[] Getline(int number, Line.Direction d)
         {
-            return Shortline.Getline(this, number, d);
+            return Shortline.getline(this, number, d);
         }
 
 
 
         #region Availablecheck
 
-        public bool AvailableCheck(int innerRownum, int innerColnum)
+        public bool availableCheck(int innerRownum, int innerColnum)
         {
             int a = _box[innerRownum, innerColnum].value;
             return a == 0 || Array.FindAll(BoxtoLine(_box), x => (int)x == a).Count() <= 1;
         }
-        public bool AvailableCheck(int[] a)
+        public bool availableCheck(int[] a)
         {
-            return AvailableCheck(a[0], a[1], a[2], a[3]);
+            return availableCheck(a[0], a[1], a[2], a[3]);
         }
-        public bool AvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
+        public bool availableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
-            return AvailableCheck(innerRownum, innerColnum);
+            return availableCheck(innerRownum, innerColnum);
         }
-        public bool AvailableCheck()
+        public bool availableCheck()
         {
             int[] temp = BoxtoLine();
             Array.Sort(temp);
@@ -368,7 +360,6 @@ namespace sudoku
             return box;
         }
     }
-    
     public class Board : ICheckable, IEnumerable
     {
         Box[,] _board = new Box[3, 3];
@@ -419,11 +410,11 @@ namespace sudoku
         }
 
 
-        public bool AvailableCheck(int[] a)
+        public bool availableCheck(int[] a)
         {
             throw new NotImplementedException();
         }
-        public bool AvailableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
+        public bool availableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
             throw new NotImplementedException();
         }
@@ -435,8 +426,10 @@ namespace sudoku
 
         public static explicit operator Board(Box[,] b)
         {
-            Board board = new Board();
-            board._board = b;
+            Board board = new Board()
+            {
+                _board = b
+            };
             return board;
         }
         public static explicit operator Box[,] (Board b)
