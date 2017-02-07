@@ -291,9 +291,9 @@ namespace sudoku
         }
 
 
-        protected int[] BoxtoLine()
+        protected int[] boxtoLine()
         {
-            Point[] point = BoxtoLine(_box);
+            Point[] point = boxtoLine(_box);
             int[] result = new int[point.Length];
             for (int a = 0; a < point.Length; a++)
             {
@@ -301,7 +301,7 @@ namespace sudoku
             }
             return result;
         }
-        public static T[] BoxtoLine<T>(T[,] box)
+        public static T[] boxtoLine<T>(T[,] box)
         {
             T[] line = new T[9];
 
@@ -324,7 +324,7 @@ namespace sudoku
         public bool availableCheck(int innerRownum, int innerColnum)
         {
             int a = _box[innerRownum, innerColnum].value;
-            return a == 0 || Array.FindAll(BoxtoLine(_box), x => (int)x == a).Count() <= 1;
+            return a == 0 || Array.FindAll(boxtoLine(_box), x => (int)x == a).Count() <= 1;
         }
         public bool availableCheck(int[] a)
         {
@@ -336,7 +336,7 @@ namespace sudoku
         }
         public bool availableCheck()
         {
-            int[] temp = BoxtoLine();
+            int[] temp = boxtoLine();
             Array.Sort(temp);
             return temp == nums;
         }

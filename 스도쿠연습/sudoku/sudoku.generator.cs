@@ -15,15 +15,24 @@ namespace sudoku.Generator
             int[] line_3 = lineShiftLeft(line_2);
             int[,] thirdbox = Shortline.lineTobox(line_3);
             board[2, 0] = (Box)thirdbox;
+
             for (int i = 1; i < 3; i++)
             {
-               board[0, i].box = boxshiftup(board[0, i-1].box);
-               board[1, i].box = boxshiftup(board[1, i-1].box);
-               board[2, i].box = boxshiftup(board[2, i-1].box);
+               board[0, i].box = boxShiftUp(board[0, i-1].box);
+               board[1, i].box = boxShiftUp(board[1, i-1].box);
+               board[2, i].box = boxShiftUp(board[2, i-1].box);
             }
-           //board =  (Board)boxrowshuffle((Box[,])board);
-           // board = (Board)boxcolshuffle((Box[,])board);
+
+            board = (Board)boxShuffle((Box[,])board,Line.Direction.Horizontal);
+            board = (Board)boxShuffle((Box[,])board,Line.Direction.Vertical);
             return board;
+        }
+
+        private static void swap<T>(ref T A, ref T B)
+        {
+            T temp = B;
+            B = A;
+            A = temp;
         }
         private static T[,] boxShiftUp<T>(T[,] input)
         {
@@ -110,7 +119,11 @@ namespace sudoku.Generator
         private static T[,] boxShuffle<T>(T[,] input, Line.Direction direction)
         {
             int l, r;
-            l = r = 0;
+            l = r = 1;
+            l *= direction == Line.Direction.Horizontal ? 1 : 0;
+            r *= direction == Line.Direction.Vertical ? 1 : 0;
+            if (l * r > 0) return input;
+
             T[,] result = new T[3, 3];
             T[][] lines = new T[3][];
             Random ran = new Random(DateTime.Now.Millisecond);
@@ -119,22 +132,18 @@ namespace sudoku.Generator
             lines[1] = new T[3] { input[1 * l, 1 * r], input[1 + 1 * l, 1 + 1 * r], input[2 + 1 * l, 2 + 1 * r] };
             lines[2] = new T[3] { input[2 * l, 2 * r], input[1 + 2 * l, 1 + 2 * r], input[2 + 2 * l, 2 + 2 * r] };
 
-
-            T[] templine = new T[3];
             for (int i = 0; i < 3; i++)
             {
                 int ranA = ran.Next(3);
                 int ranB = ran.Next(3);
-                templine = lines[ranA];
-                lines[ranA] = lines[ranB];
-                lines[ranB] = templine;
+                swap(ref lines[ranA],ref lines[ranB]);
             }
 
             for (int i = 0; i < 3; i++)
             {
-                result[0, i] = lines[i][0];
-                result[1, i] = lines[i][1];
-                result[2, i] = lines[i][2];
+                result[0, i] = lines[i * l + 0 * r][0 * l + i * r];
+                result[1, i] = lines[i * l + 1 * r][1 * l + i * r];
+                result[2, i] = lines[i * l + 2 * r][2 * l + i * r];
             }
 
             return result;

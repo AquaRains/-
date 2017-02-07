@@ -11,8 +11,28 @@
     /// <summary>
     /// 스도쿠 판 해를 구하는 기능을 모아놓은 클래스입니다.
     /// </summary>
-    public static class Resolve
+    public class Resolve
     {
+        private Board board;
+        public Board Board { get => board; }
+        public Board answer
+        {
+            get
+            {
+                Board answerboard;
+                resolveBoard(board, out answerboard);
+                return answerboard;
+            }
+        }
+
+
+        public Resolve(Board board) =>  this.board = board;
+        public Resolve()
+        {
+            this.board = new Board();
+            Generator.BoardGenarator.genarateboard(this.board);
+        }
+
         /// <summary>
         /// board의 해를 구합니다.
         /// </summary>
