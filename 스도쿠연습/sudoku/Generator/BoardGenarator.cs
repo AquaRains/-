@@ -1,5 +1,4 @@
 ﻿using System;
-using sudoku.Resolution;
 namespace sudoku.Generator
 {
     static class BoardGenarator
@@ -23,8 +22,8 @@ namespace sudoku.Generator
                board[2, i].box = boxShiftUp(board[2, i-1].box);
             }
 
-            board = (Board)boxShuffle((Box[,])board,Line.Direction.Horizontal);
-            board = (Board)boxShuffle((Box[,])board,Line.Direction.Vertical);
+            board = (Board)boxrowshuffle((Box[,])board);
+            board = (Board)boxcolshuffle((Box[,])board);
             return board;
         }
 
@@ -58,63 +57,11 @@ namespace sudoku.Generator
         }
         private static T[,] boxrowshuffle<T>(T[,] input)
         {
-            T[,] result = new T[3, 3];
-            T[][] lines = new T[3][];
-            Random r = new Random(System.DateTime.Now.Millisecond);
-
-            lines[0] = new T[3] { input[0, 0], input[0, 1], input[0, 2] };
-            lines[1] = new T[3] { input[1, 0], input[1, 1], input[1, 2] };
-            lines[2] = new T[3] { input[2, 0], input[1, 1], input[2, 2] };
-
-
-            T[] templine = new T[3];
-            for (int i = 0; i < 3; i++)
-            {
-                int a = r.Next(3);
-                int b = r.Next(3);
-                templine = lines[a];
-                lines[a] = lines[b];
-                lines[b] = templine;
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                result[0, i] = lines[0][i];
-                result[1, i] = lines[1][i];
-                result[2, i] = lines[2][i];
-            }
-
-            return result;
+            return boxShuffle(input,Line.Direction.Vertical);
         }
         private static T[,] boxcolshuffle<T>(T[,] input)
         {
-            T[,] result = new T[3, 3];
-            T[][] lines = new T[3][];
-            Random r = new Random(System.DateTime.Now.Millisecond);
-
-            lines[0] = new T[3] { input[0, 0], input[1, 0], input[2, 0] };
-            lines[1] = new T[3] { input[0, 1], input[1, 1], input[2, 1] };
-            lines[2] = new T[3] { input[0, 2], input[1, 2], input[2, 2] };
-
-
-            T[] templine = new T[3];
-            for (int i = 0; i < 3; i++)
-            {
-                int a = r.Next(3);
-                int b = r.Next(3);
-                templine = lines[a];
-                lines[a] = lines[b];
-                lines[b] = templine;
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                result[0, i] = lines[i][0];
-                result[1, i] = lines[i][1];
-                result[2, i] = lines[i][2];
-            }
-
-            return result;
+            return boxShuffle(input,Line.Direction.Horizontal);
         }
         private static T[,] boxShuffle<T>(T[,] input, Line.Direction direction)
         {
@@ -184,20 +131,5 @@ namespace sudoku.Generator
         }
 
 
-    }
-    public class QuestionGenerator
-    {
-        Board answer = new Board();
-        
-        public QuestionGenerator(Board board)
-        {
-            board = BoardGenarator.genarateboard(board);
-            
-        }
-
-        private static Board makeQuestion(Board board)
-        {
-            return board;
-        }
     }
 }
