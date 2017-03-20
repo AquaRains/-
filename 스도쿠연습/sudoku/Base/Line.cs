@@ -12,17 +12,11 @@
         /// </summary>
         public enum Direction
         {
-            /// <summary>
-            /// 해당 사항 없음
-            /// </summary>
+            /// <summary> 해당 사항 없음</summary>
             Unabled,
-            /// <summary>
-            /// 가로
-            /// </summary>
+            /// <summary> 가로 </summary>
             Horizontal,
-            /// <summary>
-            /// 세로
-            /// </summary>
+            /// <summary> 세로 </summary>
             Vertical
         }
         private Direction _Direction;
