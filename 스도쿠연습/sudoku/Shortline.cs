@@ -11,11 +11,20 @@ namespace sudoku
     {
         private Point[] line = new Point[3];
 
+        /// <summary>
+        /// index번째의 point를 반환합니다.
+        /// </summary>
+        /// <param name="index">인덱스 값</param>
+        /// <returns></returns>
         public Point this[int index]
         {
             get => line[index];
             set => line[index] = value;
         }
+
+        /// <summary>
+        /// 길이 3의 point 배열을 반환하거나 지정할 수 있습니다.
+        /// </summary>
         public Point[] Line
         {
             get { return line; }
@@ -28,7 +37,7 @@ namespace sudoku
             {
                 case Direction.Unabled:
                     throw new ArgumentException("Line 형식만 사용됩니다");
-                    break;
+
                 case Direction.Horizontal:
                     Line[0] = box[number, 0];
                     Line[1] = box[number, 1];
@@ -41,7 +50,7 @@ namespace sudoku
                     break;
                 default:
                     throw new ArgumentException("잘못된 인수입니다");
-                    break;
+
             }
             direction = d;
         }
@@ -53,6 +62,13 @@ namespace sudoku
         {
         }
 
+        /// <summary>
+        /// 3x3 상자에서 number번째의 행 또는 열을 가져옵니다.
+        /// </summary>
+        /// <param name="box">찾을 box</param>
+        /// <param name="number">index</param>
+        /// <param name="d">방향</param>
+        /// <returns></returns>
         public static Shortline getline(Box box, int number, Direction d)
         {
             Shortline line = new Shortline(d);
@@ -60,7 +76,7 @@ namespace sudoku
             {
                 case Direction.Unabled:
                     throw new ArgumentException("Line 형식만 사용됩니다");
-                    break;
+
                 case Direction.Horizontal:
                     line[0] = box[number, 0];
                     line[1] = box[number, 1];
@@ -73,10 +89,17 @@ namespace sudoku
                     break;
                 default:
                     throw new ArgumentException("잘못된 인수입니다");
-                    break;
+
             }
             return line;
         }
+
+        /// <summary>
+        /// 3x3 배열을 길의 9의 1차원 배열로 변환합니다.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="line"></param>
+        /// <returns></returns>
         public static T[,] lineTobox<T>(T[] line)
         {
             T[,] box = new T[3, 3];
@@ -93,11 +116,19 @@ namespace sudoku
             return box;
         }
 
+        /// <summary>
+        /// 열거자 : Line의 항목 리턴합니다.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator GetEnumerator()
         {
             return Line.GetEnumerator();
         }
 
+        /// <summary>
+        /// point배열을 shortline으로 변환
+        /// </summary>
+        /// <param name="v">길이 3의 point 배열</param>
         public static explicit operator Shortline(Point[] v)
         {
             Shortline temp = new Shortline();

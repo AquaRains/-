@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 
-
 namespace sudoku
 {
     public class Board : ICheckable, IEnumerable
     {
-        Box[,] _board = new Box[3, 3];
+        private Box[,] _board = new Box[3, 3];
+
         public Box this[int x, int y]
         {
             get
@@ -30,7 +30,7 @@ namespace sudoku
         }
 
         public Box[,] board
-            {
+        {
             get
             {
                 return _board;
@@ -39,7 +39,7 @@ namespace sudoku
             {
                 _board = value;
             }
-            }
+        }
 
         public Board()
         {
@@ -59,13 +59,14 @@ namespace sudoku
             {
                 case Line.Direction.Horizontal:
                     return getLonglineH(x, y);
+
                 case Line.Direction.Vertical:
                     return getLonglineV(x, y);
+
                 default:
                     return null;
             }
         }
-
         private Longline getLonglineH(int x, int y)
         {
             return (Longline)(new Shortline[]
@@ -84,12 +85,11 @@ namespace sudoku
                 this[x / 3, 2].Getline(x % 3, Line.Direction.Horizontal)
    });
         }
-
-
         public bool availableCheck(int[] a)
         {
             throw new NotImplementedException();
         }
+
         public bool availableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
         {
             throw new NotImplementedException();
@@ -108,13 +108,11 @@ namespace sudoku
             };
             return board;
         }
+
         public static explicit operator Box[,] (Board b)
         {
             Box[,] box = b.board;
             return box;
         }
     }
-
-
 }
-

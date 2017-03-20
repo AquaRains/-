@@ -1,4 +1,6 @@
-﻿namespace sudoku.Resolution
+﻿using System;
+
+namespace sudoku.Resolution
 {
     //스도쿠 풀이 알고리즘
 
@@ -25,7 +27,7 @@
             }
         }
 
-
+ 
         public Resolve(Board board) =>  this.board = board;
         public Resolve()
         {
@@ -42,6 +44,7 @@
         {
             return resolveBoard(board, out board);
         }
+
         /// <summary>
         /// board의 해를 구합니다.
         /// </summary>
@@ -64,13 +67,23 @@
         /// <param name="board"></param>
         /// <param name="point"></param>
         /// <param name="value"></param>
-        private static void eliminate(Board board, Point point, int value)
+        private static bool eliminate(ref Board board, Point point, int value)
         {
+
             //값을변경하고
             //유효성검사를 한다
             //성공하면 그대로 리턴
+            if (false)
+            {
+                return true;
+            }
+            else
+
+                return false;
             //실패하면 롤백
         }
+
+
         /// <summary>
         /// board의 point에 value 값을 입력하고, 연관된 모든 값의 조건을 갱신합니다.
         /// 정확히는, 연관된 모든 칸의 available number에서 value를 eliminate합니다.
@@ -78,12 +91,20 @@
         /// <param name="board"></param>
         /// <param name="point"></param>
         /// <param name="value"></param>
-        private static void assign(Board board, Point point, int value)
+        private static void assign(ref Board board, Point point, int value)
         {
+            foreach (Point p in board)
+            {
+                if(!eliminate(ref board, point, value))
+                {
+
+                }
+            }
             //대상 point 각각 eliminate를 실행
             //이 중에 하나라도 실패하면, 롤백.
       
             //성공하면 그대로
         }
+
     }
 }

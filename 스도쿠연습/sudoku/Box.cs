@@ -108,7 +108,6 @@ namespace sudoku
             return box.GetEnumerator();
         }
         #endregion
-
         public static explicit operator Box(int[,] v)
         {
             Box box = new Box();

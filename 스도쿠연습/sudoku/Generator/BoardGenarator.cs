@@ -1,7 +1,8 @@
 ﻿using System;
+
 namespace sudoku.Generator
 {
-    static class BoardGenarator
+    internal static class BoardGenarator
     {
         public static Board genarateboard(Board board)
         {
@@ -17,9 +18,9 @@ namespace sudoku.Generator
 
             for (int i = 1; i < 3; i++)
             {
-               board[0, i].box = boxShiftUp(board[0, i-1].box);
-               board[1, i].box = boxShiftUp(board[1, i-1].box);
-               board[2, i].box = boxShiftUp(board[2, i-1].box);
+                board[0, i].box = boxShiftUp(board[0, i - 1].box);
+                board[1, i].box = boxShiftUp(board[1, i - 1].box);
+                board[2, i].box = boxShiftUp(board[2, i - 1].box);
             }
 
             board = (Board)boxrowshuffle((Box[,])board);
@@ -33,6 +34,7 @@ namespace sudoku.Generator
             B = A;
             A = temp;
         }
+
         private static T[,] boxShiftUp<T>(T[,] input)
         {
             T[,] result = new T[3, 3];
@@ -55,14 +57,17 @@ namespace sudoku.Generator
             }
             return result;
         }
+
         private static T[,] boxrowshuffle<T>(T[,] input)
         {
-            return boxShuffle(input,Line.Direction.Vertical);
+            return boxShuffle(input, Line.Direction.Vertical);
         }
+
         private static T[,] boxcolshuffle<T>(T[,] input)
         {
-            return boxShuffle(input,Line.Direction.Horizontal);
+            return boxShuffle(input, Line.Direction.Horizontal);
         }
+
         private static T[,] boxShuffle<T>(T[,] input, Line.Direction direction)
         {
             int l, r;
@@ -83,7 +88,7 @@ namespace sudoku.Generator
             {
                 int ranA = ran.Next(3);
                 int ranB = ran.Next(3);
-                swap(ref lines[ranA],ref lines[ranB]);
+                swap(ref lines[ranA], ref lines[ranB]);
             }
 
             for (int i = 0; i < 3; i++)
@@ -95,6 +100,7 @@ namespace sudoku.Generator
 
             return result;
         }
+
         private static T[] lineShiftLeft<T>(T[] input)
         {
             T[] line_temp = new T[8];
@@ -105,6 +111,7 @@ namespace sudoku.Generator
 
             return line;
         }
+
         private static int[] generateLine()
         {
             Random rd = new Random(DateTime.Now.Millisecond);
@@ -121,15 +128,11 @@ namespace sudoku.Generator
                 int a = rd.Next(9);  // 0~9 난수발생해서 아무렇게나 자리를 바꾼다
                 int b = rd.Next(9);
 
-
-
                 int temp = result[a];
                 result[a] = result[b];
                 result[b] = temp;
             }
             return result;
         }
-
-
     }
 }
