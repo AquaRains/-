@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-namespace sudoku
+namespace Sudoku.Base
 {
     /// <summary>
     /// board 구조에 기초한 9개 한 줄 혹은 3개의 shortline의 한 묶음

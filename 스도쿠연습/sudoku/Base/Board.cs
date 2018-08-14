@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace sudoku
+namespace Sudoku.Base
 {
     public class Board : ICheckable, IEnumerable
     {

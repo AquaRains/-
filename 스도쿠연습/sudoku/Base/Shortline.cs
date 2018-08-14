@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-namespace sudoku
+namespace Sudoku.Base
 {
     /// <summary>
     /// box값 내부의 한 줄인 3개 한 묶음짜리

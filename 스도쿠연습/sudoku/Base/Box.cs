@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 
-namespace sudoku
+namespace Sudoku.Base
 {
     public class Box : ICheckable, IEnumerable
     {
