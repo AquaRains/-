@@ -1,6 +1,7 @@
 ﻿using System;
+using Sudoku.Base;
 
-namespace sudoku.Generator
+namespace Sudoku.Generator
 {
     internal static class BoardGenarator
     {

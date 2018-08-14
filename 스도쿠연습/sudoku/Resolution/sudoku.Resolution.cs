@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Sudoku.Base;
+using System;
+using System.Linq;
 
-namespace sudoku.Resolution
+namespace Sudoku.Resolution
 {
     //스도쿠 풀이 알고리즘
 
@@ -13,6 +15,14 @@ namespace sudoku.Resolution
     /// <summary>
     /// 스도쿠 판 해를 구하는 기능을 모아놓은 클래스입니다.
     /// </summary>
+    /// 
+    public enum ResolveResult
+    {
+        UnKnown,
+        Solved,
+        UnSolvable
+    }
+
     public class Resolve
     {
         private Board board;
@@ -106,5 +116,13 @@ namespace sudoku.Resolution
             //성공하면 그대로
         }
 
+    }
+
+    public static class SudokuBaseExtension
+    {
+        public static Board GetBoardResolution(this Board board)
+        {
+            return board;
+        }
     }
 }

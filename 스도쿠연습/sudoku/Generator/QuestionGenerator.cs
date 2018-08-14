@@ -1,6 +1,6 @@
 ﻿using System;
 using sudoku.Resolution;
-namespace sudoku.Generator
+namespace Sudoku.Generator
 {
 
     public class QuestionGenerator

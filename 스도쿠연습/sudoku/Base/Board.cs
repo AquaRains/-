@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 
-namespace sudoku
+namespace Sudoku.Base
 {
-    public class Board : ICheckable, IEnumerable
+    public class Board : IEnumerable, ICloneable
     {
-        private Box[,] _board = new Box[3, 3];
+        public Box[,] board { get; set; } = new Box[3, 3];
 
         public Box this[int x, int y]
         {
@@ -17,38 +17,28 @@ namespace sudoku
                 }
                 else
                 {
-                    return _board[x, y];
+                    return board[x, y];
                 }
             }
             set
             {
                 if (!((x < 0 || x >= 3) && (y < 0 || y >= 3)))
                 {
-                    _board[x, y] = value;
+                    board[x, y] = value;
                 }
             }
         }
 
-        public Box[,] board
-        {
-            get
-            {
-                return _board;
-            }
-            set
-            {
-                _board = value;
-            }
-        }
+
 
         public Board()
         {
-            _board = new Box[3, 3];
+            board = new Box[3, 3];
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    _board[i, j] = new Box();
+                    board[i, j] = new Box();
                 }
             }
         }
@@ -85,26 +75,22 @@ namespace sudoku
                 this[x / 3, 2].Getline(x % 3, Line.Direction.Horizontal)
    });
         }
-        public bool availableCheck(int[] a)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool availableCheck(int boxRownum, int boxColnum, int innerRownum, int innerColnum)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerator GetEnumerator()
         {
             return board.GetEnumerator();
         }
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
         public static explicit operator Board(Box[,] b)
         {
             Board board = new Board()
             {
-                _board = b
+                board = b
             };
             return board;
         }

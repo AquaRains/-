@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using sudoku;
-using sudoku.Generator;
 
 namespace 스도쿠연습.game
 {
   
     public partial class 게임화면 : Form
     {
-        Board board = new Board();
+        Sudoku.Sudoku game = new Sudoku.Sudoku();
 
         protected const int buttonstopmargin = 12;
         protected const int buttonsTopthirdMargin = 8;
@@ -19,7 +17,7 @@ namespace 스도쿠연습.game
         protected const int buttonswidth = 38;
 
         /// <summary>
-        /// button 상속받아서 좌표값 저장할수 있게 변수 추가한 클래스
+        /// button 상속받아서 좌표값 저장할수 있게 변수 추가
         /// </summary>
         public class Buttons : System.Windows.Forms.Button
         {
@@ -46,7 +44,6 @@ namespace 스도쿠연습.game
 
         /// <summary>
         /// 게임화면 창을 불러옵니다(싱글턴 패턴 구현으로 중복 실행방지)
-        /// 단, 멀티스레드 환경 아니니 주의
         /// </summary>
         public static 게임화면 GetInstance
         {
@@ -61,6 +58,7 @@ namespace 스도쿠연습.game
                     }
                     else
                     {
+                        
                         return thisform;
                     }
 
@@ -89,45 +87,42 @@ namespace 스도쿠연습.game
 
                         for (int innercol = 0; innercol < 3; innercol++)
                         {
-                            makeButton(p, boxrow, boxcol, innerrow, innercol);
+                            gamebuttons[boxrow, boxcol][innerrow, innercol] = new Buttons();
+                            Buttons A = gamebuttons[boxrow, boxcol][innerrow, innercol];
 
+                            A.Text = p.ToString();
+                            A.Location = new System.Drawing.Point(buttonsleftmargin + innerrow * buttonswidth + boxrow * (buttonsLeftthirdMargin * buttonsleftmargin + buttonswidth),
+                                                         buttonstopmargin + innercol * buttonsheight + boxcol * (buttonsTopthirdMargin * buttonstopmargin + buttonsheight));
+                            A.Name = "gamebuttons[" + p + "]";
+                            A.Size = new Size(32, 32);
+                            A.TabIndex = p;
+                            A.index_boxcol = boxcol;
+                            A.index_boxrow = boxrow;
+                            A.index_innercol = innercol;
+                            A.index_innerrow = innerrow;
                             p++;
+
+                            this.Controls.Add(A);
+                            A.Click += (object sender, EventArgs e) => // 버튼패드 창 띄우는 이벤트 추가(람다 식)
+                            {
+
+                                Buttons button = (Buttons)sender;
+                                clickedbuttonnum = new int[4] { A.index_boxrow, A.index_boxcol, A.index_innerrow, A.index_innercol };
+                                NumPadForm 숫자폼 = NumPadForm.GetInstance;
+
+                                숫자폼.Show();
+                                숫자폼.Location = new System.Drawing.Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
+
+                            };
                         }
                     }
 
                 }
             }
-        }
-
-        private void makeButton(int buttonIndex, int boxrow, int boxcol, int innerrow, int innercol)
-        {
-            gamebuttons[boxrow, boxcol][innerrow, innercol] = new Buttons();
-            Buttons A = gamebuttons[boxrow, boxcol][innerrow, innercol];
-
-            int xPos = buttonsleftmargin + innerrow * buttonswidth + boxrow * (buttonsLeftthirdMargin * buttonsleftmargin + buttonswidth);
-            int yPos = buttonstopmargin + innercol * buttonsheight + boxcol * (buttonsTopthirdMargin * buttonstopmargin + buttonsheight);
-
-            A.Text = buttonIndex.ToString();
-            A.Location = new System.Drawing.Point(xPos,yPos);
-            A.Name = "gamebuttons[" + buttonIndex + "]";
-            A.Size = new Size(32, 32);
-            A.TabIndex = buttonIndex;
-            A.index_boxcol = boxcol;
-            A.index_boxrow = boxrow;
-            A.index_innercol = innercol;
-            A.index_innerrow = innerrow;
-
-
-            this.Controls.Add(A);
-            A.Click += (sender, e) => // 버튼패드 창 띄우는 이벤트 추가(람다 식)
-            {
-                Buttons button = (Buttons)sender;
-                clickedbuttonnum = new int[4] { A.index_boxrow, A.index_boxcol, A.index_innerrow, A.index_innercol };
-                NumPadForm 숫자폼 = NumPadForm.GetInstance;
-
-                숫자폼.Show();
-                숫자폼.Location = new System.Drawing.Point(this.Location.X + button.Location.X, this.Location.Y + button.Location.Y);
-            };
+          
+            
+           
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -138,21 +133,23 @@ namespace 스도쿠연습.game
 
         private void 새_게임()
         {
-            board = BoardGenarator.genarateboard(board);
-            배치하기(this);
+            game.Genarate();
+            배치하기();
             button1.Enabled = true;
         }
-        private void 배치하기(게임화면 form)
-        {           
+        private void 배치하기()
+        {
+            var board = game.Board;
+           
             for (int i = 0; i<3; i++) { for(int j = 0; j < 3; j++) { for(int k = 0; k < 3; k++) { for(int l = 0; l < 3; l++)
                         {
-                            form.gamebuttons[i, j][k, l].Text = board[i, j].box[k, l].value.ToString();
+                            게임화면.GetInstance.gamebuttons[i, j][k, l].Text = board[i, j].box[k, l].value.ToString();
                         } } } }
             //button1.Enabled = false;
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            배치하기(this);
+            배치하기();
         }
 
         private void button3_Click(object sender, EventArgs e)

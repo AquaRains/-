@@ -1,4 +1,4 @@
-﻿namespace sudoku
+﻿namespace Sudoku.Base
 {
 
 
