@@ -53,12 +53,12 @@
   <ItemGroup>
     <Compile Include="sudoku\Base\Board.cs" />
     <Compile Include="sudoku\Base\Box.cs" />
+    <Compile Include="sudoku\Base\Cell.cs" />
     <Compile Include="sudoku\Generator\BoardGenarator.cs" />
     <Compile Include="sudoku\Generator\QuestionGenerator.cs" />
     <Compile Include="sudoku\Base\Interfaces.cs" />
     <Compile Include="sudoku\Base\Line.cs" />
     <Compile Include="sudoku\Base\Longline.cs" />
-    <Compile Include="sudoku\Base\Point.cs" />
     <Compile Include="sudoku\Resolution\Interfaces.cs" />
     <Compile Include="sudoku\Resolution\sudoku.Resolution.cs" />
     <Compile Include="sudoku\Base\Shortline.cs" />

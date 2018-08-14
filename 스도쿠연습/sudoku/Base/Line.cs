@@ -19,16 +19,10 @@
             /// <summary> 세로 </summary>
             Vertical
         }
-        private Direction _Direction;
         /// <summary>
         /// 이 인스턴스에 저장된 방향 값입니다
         /// </summary>
-        public Direction direction
-        {
-            get { return _Direction; }
-            set { _Direction = value; }
-        }
-
+        public Direction direction { get; set; }
 
     }
 

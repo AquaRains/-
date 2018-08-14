@@ -5,7 +5,7 @@ namespace Sudoku.Base
 {
     public class Board : IEnumerable, ICloneable
     {
-        public Box[,] board { get; set; } = new Box[3, 3];
+        public Box[,] bigBox { get; set; } = new Box[3, 3];
 
         public Box this[int x, int y]
         {
@@ -17,31 +17,31 @@ namespace Sudoku.Base
                 }
                 else
                 {
-                    return board[x, y];
+                    return bigBox[x, y];
                 }
             }
             set
             {
                 if (!((x < 0 || x >= 3) && (y < 0 || y >= 3)))
                 {
-                    board[x, y] = value;
+                    bigBox[x, y] = value;
                 }
             }
         }
-
-
+        
 
         public Board()
         {
-            board = new Box[3, 3];
+            bigBox = new Box[3, 3];
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    board[i, j] = new Box();
+                    bigBox[i, j] = new Box();
                 }
             }
         }
+
 
         public Longline getLongLine(int x, int y, Line.Direction direction)
         {
@@ -78,7 +78,7 @@ namespace Sudoku.Base
 
         public IEnumerator GetEnumerator()
         {
-            return board.GetEnumerator();
+            return bigBox.GetEnumerator();
         }
 
         public object Clone()
@@ -90,14 +90,14 @@ namespace Sudoku.Base
         {
             Board board = new Board()
             {
-                board = b
+                bigBox = b
             };
             return board;
         }
 
         public static explicit operator Box[,] (Board b)
         {
-            Box[,] box = b.board;
+            Box[,] box = b.bigBox;
             return box;
         }
     }

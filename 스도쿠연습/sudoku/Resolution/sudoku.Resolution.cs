@@ -77,7 +77,7 @@ namespace Sudoku.Resolution
         /// <param name="board"></param>
         /// <param name="point"></param>
         /// <param name="value"></param>
-        private static bool eliminate(ref Board board, Point point, int value)
+        private static bool eliminate(ref Board board, Cell point, int value)
         {
 
             //값을변경하고
@@ -101,9 +101,9 @@ namespace Sudoku.Resolution
         /// <param name="board"></param>
         /// <param name="point"></param>
         /// <param name="value"></param>
-        private static void assign(ref Board board, Point point, int value)
+        private static void assign(ref Board board, Cell point, int value)
         {
-            foreach (Point p in board)
+            foreach (Cell p in board)
             {
                 if(!eliminate(ref board, point, value))
                 {
@@ -120,9 +120,11 @@ namespace Sudoku.Resolution
 
     public static class SudokuBaseExtension
     {
-        public static Board GetBoardResolution(this Board board)
+        public static int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        public static bool valueCheck(this Longline longline)
         {
-            return board;
+
         }
     }
 }

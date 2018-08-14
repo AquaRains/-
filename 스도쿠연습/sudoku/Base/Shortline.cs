@@ -9,14 +9,14 @@ namespace Sudoku.Base
     /// </summary>
     public class Shortline : Line, IEnumerable
     {
-        private Point[] line = new Point[3];
+        private Cell[] line = new Cell[3];
 
         /// <summary>
         /// index번째의 point를 반환합니다.
         /// </summary>
         /// <param name="index">인덱스 값</param>
         /// <returns></returns>
-        public Point this[int index]
+        public Cell this[int index]
         {
             get => line[index];
             set => line[index] = value;
@@ -25,7 +25,7 @@ namespace Sudoku.Base
         /// <summary>
         /// 길이 3의 point 배열을 반환하거나 지정할 수 있습니다.
         /// </summary>
-        public Point[] Line
+        public Cell[] Line
         {
             get { return line; }
             private set { line = value; }
@@ -129,7 +129,7 @@ namespace Sudoku.Base
         /// point배열을 shortline으로 변환
         /// </summary>
         /// <param name="v">길이 3의 point 배열</param>
-        public static explicit operator Shortline(Point[] v)
+        public static explicit operator Shortline(Cell[] v)
         {
             Shortline temp = new Shortline();
             temp.Line[0] = v[0];

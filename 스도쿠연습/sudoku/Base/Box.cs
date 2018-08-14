@@ -7,14 +7,9 @@ namespace Sudoku.Base
 {
     public class Box : IEnumerable
     {
-        private Point[,] _box;
-        public Point[,] box
-        {
-            get { return _box; }
-            set { _box = value; }
-        }
+        public Cell[,] box { get; set; }
 
-        public Point this[int x, int y]
+        public Cell this[int x, int y]
         {
             get
             {
@@ -24,14 +19,14 @@ namespace Sudoku.Base
                 }
                 else
                 {
-                    return _box[x, y];
+                    return box[x, y];
                 }
             }
             set
             {
                 if (!((x < 0 || x >= 3) && (y < 0 || y >= 3)))
                 {
-                    _box[x, y] = value;
+                    box[x, y] = value;
                 }
             }
         }
@@ -39,12 +34,12 @@ namespace Sudoku.Base
         public Box()
         {
 
-            _box = new Point[3, 3];
+            box = new Cell[3, 3];
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    _box[i, j] = new Point();
+                    box[i, j] = new Cell();
                 }
             }
 
@@ -53,7 +48,7 @@ namespace Sudoku.Base
 
         protected int[] boxtoLine()
         {
-            Point[] point = boxtoLine(_box);
+            Cell[] point = boxtoLine(box);
             int[] result = new int[point.Length];
             for (int a = 0; a < point.Length; a++)
             {
@@ -61,6 +56,7 @@ namespace Sudoku.Base
             }
             return result;
         }
+
         public static T[] boxtoLine<T>(T[,] box)
         {
             T[] line = new T[9];
@@ -72,6 +68,7 @@ namespace Sudoku.Base
 
             return line;
         }
+
         public Shortline Getline(int number, Line.Direction d)
         {
             return Shortline.getline(this, number, d);
@@ -92,8 +89,7 @@ namespace Sudoku.Base
             }
             return box;
         }
-
-
+        
         public IEnumerator GetEnumerator()
         {
             return box.GetEnumerator();

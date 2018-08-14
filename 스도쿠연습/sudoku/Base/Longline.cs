@@ -7,25 +7,26 @@ namespace Sudoku.Base
     /// <summary>
     /// board 구조에 기초한 9개 한 줄 혹은 3개의 shortline의 한 묶음
     /// </summary>
-    public class Longline : Line,IEnumerable
+    public class Longline : Line, IEnumerable
     {
-        private Shortline[] s3line = new Shortline[3];
-        private Point[] line = new Point[9];
-        private void s3to9line()
-        {
-            for(int i = 0; i < 9; i++)
-            {
-                line[i] = s3line[i / 3].Line[i % 3];
-            }
-        }
         /// <summary>
         /// 저장된 point[9] 반환
         /// </summary>
-        public Point[] Line
+        public Cell[] Line { get; private set; } = new Cell[9];
+        public int[] LineValues
         {
-            get { return line; }
-            private set { line = value; }
+            get
+            {
+                int[] res = new int[9];
+                for (int i = 0; i < 9; i++)
+                {
+                    res[i] = this.Line[i].value;
+                }
+                return res;
+            }
         }
+
+        private Shortline[] s3line = new Shortline[3];
 
         public static Shortline[] GetShortlines(Board board, int number, Direction d)
         {
@@ -65,6 +66,14 @@ namespace Sudoku.Base
         {
             return new Longline(v);
 
+        }
+
+        private void s3to9line()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                Line[i] = s3line[i / 3].Line[i % 3];
+            }
         }
 
         private Longline(Shortline[] v)

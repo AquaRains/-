@@ -3,9 +3,9 @@
 
 
     /// <summary>
-    /// 그 점 하나에 저장된 값들의 집합입니다.
+    /// 칸 하나에 저장된 값들의 집합입니다.
     /// </summary>
-    public class Point
+    public class Cell
     {
 
         /// <summary>
@@ -14,15 +14,15 @@
         public int[] availableNumList = new int[9];
 
         private int Value;
-        public Point(int value) { Value = value; }
+        public Cell(int value) { Value = value; }
 
-        public Point()
+        public Cell()
         {
             Value = 0;
         }
 
         /// <summary>
-        /// point 내부에 저장되어있는 숫자를 나타냅니다
+        /// Cell 내부에 저장되어있는 숫자를 나타냅니다
         /// </summary>
         public int value
         {
@@ -30,20 +30,20 @@
             set { Value = value; }
         }
         /// <summary>
-        /// point.value값
+        /// Cell.value값
         /// </summary>
         /// <param name="v"></param>
-        public static implicit operator int(Point v)
+        public static implicit operator int(Cell v)
         {
             return v.value;
         }
         /// <summary>
-        /// point.value값
+        /// Cell.value값
         /// </summary>
         /// <param name="v"></param>
-        public static implicit operator Point(int v)
+        public static implicit operator Cell(int v)
         {
-            return new Point(v);
+            return new Cell(v);
         }
 
     }
