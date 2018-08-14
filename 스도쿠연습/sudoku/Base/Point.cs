@@ -8,19 +8,11 @@
     public class Point
     {
 
+        private int Value;
         /// <summary>
         /// 이곳에 넣을 수 있는 값의 집합
         /// </summary>
         public int[] availableNumList = new int[9];
-
-        private int Value;
-        public Point(int value) { Value = value; }
-
-        public Point()
-        {
-            Value = 0;
-        }
-
         /// <summary>
         /// point 내부에 저장되어있는 숫자를 나타냅니다
         /// </summary>
@@ -29,11 +21,21 @@
             get { return Value; }
             set { Value = value; }
         }
+
+        public Point(int value)
+        {
+            Value = value;
+        }
+        public Point()
+        {
+            Value = 0;
+        }
+
         /// <summary>
         /// point.value값
         /// </summary>
         /// <param name="v"></param>
-        public static implicit operator int(Point v)
+        public static explicit operator int(Point v)
         {
             return v.value;
         }
@@ -41,7 +43,7 @@
         /// point.value값
         /// </summary>
         /// <param name="v"></param>
-        public static implicit operator Point(int v)
+        public static explicit operator Point(int v)
         {
             return new Point(v);
         }
