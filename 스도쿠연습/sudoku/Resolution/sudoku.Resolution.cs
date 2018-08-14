@@ -1,5 +1,6 @@
 ﻿using Sudoku.Base;
 using System;
+using System.Linq;
 
 namespace Sudoku.Resolution
 {
@@ -15,7 +16,7 @@ namespace Sudoku.Resolution
     /// 스도쿠 판 해를 구하는 기능을 모아놓은 클래스입니다.
     /// </summary>
     /// 
-    enum ResolveResult
+    public enum ResolveResult
     {
         UnKnown,
         Solved,
@@ -115,5 +116,9 @@ namespace Sudoku.Resolution
             //성공하면 그대로
         }
 
+    }
+
+    public static class SudokuBaseExtension
+    {
     }
 }

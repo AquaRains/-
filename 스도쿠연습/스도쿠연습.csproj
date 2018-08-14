@@ -59,6 +59,7 @@
     <Compile Include="sudoku\Base\Line.cs" />
     <Compile Include="sudoku\Base\Longline.cs" />
     <Compile Include="sudoku\Base\Point.cs" />
+    <Compile Include="sudoku\Resolution\Interfaces.cs" />
     <Compile Include="sudoku\Resolution\sudoku.Resolution.cs" />
     <Compile Include="sudoku\Base\Shortline.cs" />
     <Compile Include="sudoku\Sudoku.cs" />
