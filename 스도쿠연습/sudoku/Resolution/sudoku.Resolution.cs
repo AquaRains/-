@@ -120,5 +120,9 @@ namespace Sudoku.Resolution
 
     public static class SudokuBaseExtension
     {
+        public static Board GetBoardResolution(this Board board)
+        {
+            return board;
+        }
     }
 }
