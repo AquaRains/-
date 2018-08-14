@@ -54,6 +54,7 @@
     <Compile Include="sudoku\Base\Board.cs" />
     <Compile Include="sudoku\Base\Box.cs" />
     <Compile Include="sudoku\Base\Cell.cs" />
+    <Compile Include="sudoku\Base\Base.cs" />
     <Compile Include="sudoku\Generator\BoardGenarator.cs" />
     <Compile Include="sudoku\Generator\QuestionGenerator.cs" />
     <Compile Include="sudoku\Base\Interfaces.cs" />

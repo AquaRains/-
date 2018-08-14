@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Sudoku.Base
 {
-    public class Board : IEnumerable, ICloneable
+    public class Board : IEnumerable, ICloneable, IEquatable<Board>
     {
         public Box[,] bigBox { get; set; } = new Box[3, 3];
 
@@ -27,8 +28,7 @@ namespace Sudoku.Base
                     bigBox[x, y] = value;
                 }
             }
-        }
-        
+        }        
 
         public Board()
         {
@@ -41,7 +41,6 @@ namespace Sudoku.Base
                 }
             }
         }
-
 
         public Longline getLongLine(int x, int y, Line.Direction direction)
         {
@@ -57,6 +56,7 @@ namespace Sudoku.Base
                     return null;
             }
         }
+
         private Longline getLonglineH(int x, int y)
         {
             return (Longline)(new Shortline[]
@@ -69,21 +69,11 @@ namespace Sudoku.Base
         private Longline getLonglineV(int x, int y)
         {
             return (Longline)(new Shortline[]
-   {
-                this[x / 3, 0].Getline(x % 3, Line.Direction.Horizontal),
-                this[x / 3, 1].Getline(x % 3, Line.Direction.Horizontal),
-                this[x / 3, 2].Getline(x % 3, Line.Direction.Horizontal)
-   });
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return bigBox.GetEnumerator();
-        }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
+               {
+                    this[x / 3, 0].Getline(x % 3, Line.Direction.Horizontal),
+                    this[x / 3, 1].Getline(x % 3, Line.Direction.Horizontal),
+                    this[x / 3, 2].Getline(x % 3, Line.Direction.Horizontal)
+               });
         }
 
         public static explicit operator Board(Box[,] b)
@@ -100,5 +90,58 @@ namespace Sudoku.Base
             Box[,] box = b.bigBox;
             return box;
         }
+
+
+
+        #region IEnumerable 구현
+
+        public IEnumerator GetEnumerator()
+        {
+            return bigBox.GetEnumerator();
+        }
+
+        #endregion
+
+        #region iCloneable 구현
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        #endregion
+
+
+        #region IEqutable 구현
+
+
+        public override int GetHashCode()
+        {
+            return 2119364262 + EqualityComparer<Box[,]>.Default.GetHashCode(bigBox);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Board);
+        }
+
+        public bool Equals(Board other)
+        {
+            return other != null &&
+                   EqualityComparer<Box[,]>.Default.Equals(bigBox, other.bigBox);
+        }
+
+        public static bool operator ==(Board board1, Board board2)
+        {
+            return EqualityComparer<Board>.Default.Equals(board1, board2);
+        }
+
+        public static bool operator !=(Board board1, Board board2)
+        {
+            return !(board1 == board2);
+        }
+
+
+        #endregion
     }
 }

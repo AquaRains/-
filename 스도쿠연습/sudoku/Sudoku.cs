@@ -36,4 +36,5 @@ namespace Sudoku
             return Resolve.resolveBoard(ref temp);
         }
     }
+
 }
